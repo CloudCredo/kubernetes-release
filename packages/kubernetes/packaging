@@ -1,0 +1,5 @@
+set -e -x
+cd kubernetes
+mkdir binaries
+tar -zxvf binaries.tar.gz -C binaries
+cp binaries/* ${BOSH_INSTALL_TARGET}

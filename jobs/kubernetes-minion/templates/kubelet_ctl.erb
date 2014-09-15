@@ -1,0 +1,39 @@
+#!/bin/bash
+
+RUN_DIR=/var/vcap/sys/run/kubelet
+PIDFILE=$RUN_DIR/kubelet.pid
+JOB_DIR=/var/vcap/jobs/kubelet
+
+source /var/vcap/packages/common/utils.sh
+
+case $1 in
+
+  start)
+    pid_guard $PIDFILE "kubelet"
+
+    mkdir -p $RUN_DIR
+    chown -R vcap:vcap $RUN_DIR
+
+    echo $$ > $PIDFILE
+
+    <% my_ip = spec.networks.send(properties.networks.apps).ip %>
+    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/kubelet \
+--address=<%= my_ip %> \
+--port=10250 \
+--hostname_override=<%= my_ip %> \
+--etcd_servers=http://127.0.0.1:4001 \
+--logtostderr=true \
+--docker_endpoint=unix:///var/vcap/sys/run/docker/docker.sock
+    ;;
+
+  stop)
+    kill_and_wait $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage: kubelet_ctl {start|stop}"
+
+    ;;
+
+esac

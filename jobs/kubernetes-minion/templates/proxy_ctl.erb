@@ -1,0 +1,32 @@
+#!/bin/bash
+
+RUN_DIR=/var/vcap/sys/run/proxy
+PIDFILE=$RUN_DIR/proxy.pid
+JOB_DIR=/var/vcap/jobs/proxy
+
+source /var/vcap/packages/common/utils.sh
+
+case $1 in
+
+  start)
+    pid_guard $PIDFILE "proxy"
+
+    mkdir -p $RUN_DIR
+    chown -R vcap:vcap $RUN_DIR
+
+    echo $$ > $PIDFILE
+
+    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/proxy --etcd_servers=http://127.0.0.1:4001 --logtostderr=true
+    ;;
+
+  stop)
+    kill_and_wait $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage: proxy_ctl {start|stop}"
+
+    ;;
+
+esac

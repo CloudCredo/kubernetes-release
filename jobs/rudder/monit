@@ -1,0 +1,5 @@
+check process rudder
+  with pidfile /var/vcap/sys/run/rudder/rudder.pid
+  start program "/var/vcap/jobs/rudder/bin/rudder_ctl start"
+    with timeout 60 seconds
+  stop program "/var/vcap/jobs/rudder/bin/rudder_ctl stop"

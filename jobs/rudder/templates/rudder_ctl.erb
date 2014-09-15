@@ -1,0 +1,38 @@
+#!/bin/bash
+
+RUN_DIR=/var/vcap/sys/run/rudder
+PIDFILE=$RUN_DIR/rudder.pid
+JOB_DIR=/var/vcap/jobs/rudder
+
+source /var/vcap/packages/common/utils.sh
+
+case $1 in
+
+  start)
+    pid_guard $PIDFILE "rudder"
+
+    mkdir -p $RUN_DIR
+    chown -R vcap:vcap $RUN_DIR
+
+    echo $$ > $PIDFILE
+
+    mkdir -p /dev/net
+    mknod /dev/net/tun c 10 200
+
+    /var/vcap/packages/etcdctl/etcdctl set /coreos.com/network/config '{"Network":"10.100.0.0/16"}'
+
+    <% my_ip = spec.networks.send(properties.networks.apps).ip %>
+    exec /var/vcap/packages/rudder/bin/rudder -iface=<%= my_ip %>
+    ;;
+
+  stop)
+    kill_and_wait $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage: rudder_ctl {start|stop}"
+
+    ;;
+
+esac

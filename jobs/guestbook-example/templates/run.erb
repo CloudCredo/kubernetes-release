@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+API_HOST=<%= properties.apiserver.host %>
+PATH=$PATH:/var/vcap/packages/kubernetes/
+cd /var/vcap/packages/guestbook-example
+kubecfg -h http://${API_HOST}:8080 -c redis-master.json create pods
+kubecfg -h http://${API_HOST}:8080 -c redis-master-service.json create services
+kubecfg -h http://${API_HOST}:8080 -c redis-slave-controller.json create replicationControllers
+kubecfg -h http://${API_HOST}:8080 -c redis-slave-service.json create services
+kubecfg -h http://${API_HOST}:8080 -c frontend-controller.json create replicationControllers
+
+frontend_pod_ips=()
+while [ "${#frontend_pod_ips[@]}" -ne "3" ]
+do
+  sleep 1
+  frontend_pod_ips=($(kubecfg -h http://${API_HOST}:8080 '-template={{range.Items}}{{.CurrentState.PodIP}} {{end}}' '-l=name=frontend' list pods))
+done
+
+for pod_ip in "${frontend_pod_ips[@]}"
+do
+  until curl -s -I http://${pod_ip}/ > /dev/null
+  do
+    sleep 1
+  done
+  echo -e "\nPod IP: ${pod_ip}"
+  curl -s -I http://${pod_ip}/
+done

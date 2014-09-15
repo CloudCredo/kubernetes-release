@@ -1,0 +1,12 @@
+---
+name: kubernetes-minion
+
+packages:
+  - common
+  - kubernetes
+
+templates:
+  kubelet_ctl.erb: bin/kubelet_ctl
+  proxy_ctl.erb: bin/proxy_ctl
+
+properties: {}

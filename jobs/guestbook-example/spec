@@ -1,0 +1,11 @@
+---
+name: guestbook-example
+templates:
+  run.erb: bin/run
+packages:
+  - kubernetes
+  - guestbook-example
+
+properties:
+  apiserver.host:
+    description: "The host running the apiserver to connect to"

@@ -1,0 +1,12 @@
+[submodule "src/etcd"]
+	path = src/etcd
+	url = https://github.com/coreos/etcd.git
+[submodule "src/rudder"]
+	path = src/rudder
+	url = https://github.com/coreos/rudder.git
+[submodule "src/etcdctl"]
+	path = src/etcdctl
+	url = https://github.com/coreos/etcdctl.git
+[submodule "src/.kubernetes"]
+	path = src/.kubernetes
+	url = https://github.com/GoogleCloudPlatform/kubernetes.git

@@ -1,0 +1,7 @@
+---
+name: etcdctl
+dependencies:
+  - golang
+  - git
+files:
+  - etcdctl/**/*

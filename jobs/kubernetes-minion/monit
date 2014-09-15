@@ -1,0 +1,13 @@
+check process kubelet
+  with pidfile /var/vcap/sys/run/kubelet/kubelet.pid
+  start program "/var/vcap/jobs/kubernetes-minion/bin/kubelet_ctl start"
+    with timeout 60 seconds
+  stop program "/var/vcap/jobs/kubernetes-minion/bin/kubelet_ctl stop"
+  group vcap
+
+check process proxy
+  with pidfile /var/vcap/sys/run/proxy/proxy.pid
+  start program "/var/vcap/jobs/kubernetes-minion/bin/proxy_ctl start"
+    with timeout 60 seconds
+  stop program "/var/vcap/jobs/kubernetes-minion/bin/proxy_ctl stop"
+  group vcap

@@ -1,0 +1,16 @@
+---
+name: rudder
+
+packages:
+  - common
+  - git
+  - golang
+  - etcdctl
+  - rudder
+
+templates:
+  rudder_ctl.erb: bin/rudder_ctl
+
+properties:
+  networks.apps:
+    description: "Used to get our IP address"

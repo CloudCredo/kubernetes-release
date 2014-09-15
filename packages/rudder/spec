@@ -1,0 +1,7 @@
+---
+name: rudder
+dependencies:
+  - git
+  - golang
+files:
+  - rudder/**/*

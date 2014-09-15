@@ -1,0 +1,24 @@
+#!/bin/bash
+
+templates=$(dirname $0)/templates
+uuid_stub_path=$(dirname $0)/uuid-stub.yml
+
+infrastructure=$1
+director_uuid=$2
+
+if [ "$#" -lt 2 ]; then
+  echo "usage: ./generate_deployment_manifest <warden> <director_uuid> [stubs...]"
+  exit 1
+fi
+
+shift
+shift
+
+echo "director_uuid: ${director_uuid}" > $uuid_stub_path
+
+spiff merge \
+  $templates/k8s-deployment.yml \
+  $uuid_stub_path \
+  $templates/k8s-jobs.yml \
+  $templates/k8s-infrastructure-${infrastructure}.yml \
+  $*

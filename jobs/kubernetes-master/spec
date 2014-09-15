@@ -1,0 +1,14 @@
+---
+name: kubernetes-master
+
+packages:
+  - common
+  - kubernetes
+
+templates:
+  apiserver_ctl.erb: bin/apiserver_ctl
+  controller-manager_ctl.erb: bin/controller-manager_ctl
+
+properties:
+  apiserver.machines:
+    description: List of machines to schedule onto

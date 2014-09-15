@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+#
+# Docker properties
+#
+
+# Directory to store the Docker configuration files
+export DOCKER_CONF_DIR=${JOB_DIR}/config
+
+# Directory to store the Docker logs
+export DOCKER_LOG_DIR=${LOG_DIR}
+
+# Directory to store the Docker process IDs
+export DOCKER_PID_DIR=${RUN_DIR}
+
+# Directory to store the Docker data files
+export DOCKER_STORE_DIR=${STORE_DIR}
+
+# Directory to store the Docker temp files
+export DOCKER_TMP_DIR=${TMP_DIR}
+
+# User which will own the Docker services
+export DOCKER_USER="<%= p('docker.user') %>"
+
+# Group which will own the Docker services
+export DOCKER_GROUP="<%= p('docker.group') %>"
+
+<% if_p('docker.tcp_address', 'docker.tcp_port') do |address, port| %>
+# TCP Address/Port where Docker daemon will listen to
+export DOCKER_TCP="--host tcp://<%= address %>:<%= port %>"
+<% end %>
+
+# Enable debug mode
+export DOCKER_DEBUG="--debug=<%= p('docker.debug') %>"
+
+# Enable CORS headers in the remote API
+export DOCKER_API_ENABLE_CORS="--api-enable-cors=<%= p('docker.api_enable_cors') %>"
+
+<% if_p('docker.bridge', 'docker.cidr_prefix') do |bridge, cidr_prefix| %>
+# Attach containers to a network bridge
+export DOCKER_BRIDGE="--bridge=<%= bridge %>"
+export DOCKER_BRIDGE_NAME="<%= bridge %>"
+export DOCKER_BRIDGE_CIDR="<%= cidr_prefix %>.<%= index %>.1/24"
+<% end %>
+
+# Enable Docker addition of iptables rules
+export DOCKER_IPTABLES="--iptables=<%= p('docker.iptables') %>"
+
+# Enable net.ipv4.ip_forward
+export DOCKER_IPFORWARD="--ip-forward=<%= p('docker.ip_forward') %>"
+
+# Enable inter-container communication
+export DOCKER_ICC="--icc=<%= p('docker.icc') %>"
+
+<% if_p('docker.dns_servers') do |dns_servers| %>
+<% dns_servers_list = dns_servers.map { |dns_server| "--dns #{dns_server}" }.join(' ') %>
+# Array of DNS servers to be used by Docker
+export DOCKER_DNS_SERVERS="<%= dns_servers_list %>"
+<% end %>
+
+<% if_p('docker.dns_domains') do |dns_domains| %>
+<% dns_domains_list = dns_domains.map { |dns_domain| "--dns-search #{dns_domain}" }.join(' ') %>
+# Array of DNS search domains to be used by Docker
+export DOCKER_DNS_DOMAINS="<%= dns_domains_list %>"
+<% end %>
+
+<% if_p('docker.mtu') do |mtu| %>
+# Docker Containers network MTU
+export DOCKER_MTU="--mtu <%= mtu %>"
+<% end %>

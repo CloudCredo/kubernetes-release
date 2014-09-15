@@ -1,0 +1,13 @@
+check process apiserver
+  with pidfile /var/vcap/sys/run/apiserver/apiserver.pid
+  start program "/var/vcap/jobs/kubernetes-master/bin/apiserver_ctl start"
+    with timeout 60 seconds
+  stop program "/var/vcap/jobs/kubernetes-master/bin/apiserver_ctl stop"
+  group vcap
+
+check process controller-manager
+  with pidfile /var/vcap/sys/run/controller-manager/controller-manager.pid
+  start program "/var/vcap/jobs/kubernetes-master/bin/controller-manager_ctl start"
+    with timeout 60 seconds
+  stop program "/var/vcap/jobs/kubernetes-master/bin/controller-manager_ctl stop"
+  group vcap
