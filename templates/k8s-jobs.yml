@@ -1,0 +1,56 @@
+jobs:
+  - name: master
+    templates:
+      - name: docker
+      - name: etcd
+      - name: rudder
+      - name: kubernetes-minion
+      - name: kubernetes-master
+    instances: 1
+    resource_pool: default
+    persistent_disk: 65536
+    networks:
+      - name: default
+        static_ips: (( merge ))
+    properties:
+      networks:
+        apps: default
+      apiserver:
+        machines: (( merge ))
+  - name: minion
+    templates:
+      - name: docker
+      - name: etcd
+      - name: rudder
+      - name: kubernetes-minion
+    instances: 2
+    resource_pool: default
+    persistent_disk: 65536
+    networks:
+      - name: default
+        static_ips: (( merge ))
+    properties:
+      networks:
+        apps: default
+  - name: guestbook-example
+    lifecycle: errand
+    templates:
+      - name: guestbook-example
+      - name: etcd
+      - name: rudder
+    instances: 1
+    resource_pool: default
+    networks:
+      - name: default
+        static_ips: (( merge ))
+    properties:
+      apiserver:
+        host: (( static_ips(0) ))
+      networks:
+        apps: default
+
+properties:
+  etcd:
+    machines: (( merge ))
+
+resource_pools: (( merge ))

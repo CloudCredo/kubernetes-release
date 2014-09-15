@@ -1,0 +1,27 @@
+---
+name: kubernetes
+director_uuid: (( merge ))
+
+releases:
+ - name: kubernetes
+   version: latest
+
+compilation:
+  workers: 4
+  network: default
+  reuse_compilation_vms: false
+  cloud_properties: {}
+
+resource_pools: (( merge ))
+
+update:
+  canaries: 0
+  canary_watch_time: 30000-240000
+  update_watch_time:  30000-240000
+  max_in_flight: 32
+  serial: false
+
+networks: (( merge ))
+jobs: (( merge ))
+resource_pools: (( merge ))
+properties: (( merge ))
