@@ -13,7 +13,7 @@ Deploy [Kubernetes](http://kubernetes.io) easily with this
 $ bosh upload stemcell https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/warden/bosh-stemcell-25-warden-boshlite-ubuntu-trusty-go_agent.tgz
 $ git clone https://github.com/cloudcredo/kubernetes-release
 $ cd kubernetes-release
-$ bosh create release --force && bosh -n upload release
+$ bosh upload release releases/kubernetes/kubernetes-1.yml
 $ ./generate_deployment_manifest warden $(bosh status --uuid) > manifest.yml
 $ bosh deployment manifest.yml
 $ bosh -n deploy
@@ -26,3 +26,8 @@ The release includes an errand to deploy the
 ```
 $ bosh run errand guestbook-example
 ```
+
+## Thanks
+
+Thanks to [Brian Ketelsen](https://github.com/bketelsen/coreos-kubernetes-digitalocean)
+and [CF Platform Engineering](https://github.com/cf-platform-eng/docker-boshrelease).

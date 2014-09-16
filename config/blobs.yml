@@ -1,2 +1,29 @@
 ---
-{}
+docker/aufs-tools_3.2+20130722-1.1_amd64.deb:
+  object_id: 684d2f50-c5d5-4ae7-9909-ab96748a38a2
+  sha: 736922e32bf43facef617f8ea0bb9c7aa9efdcdb
+  size: 92274
+docker/autoconf-2.69.tar.gz:
+  object_id: 67b2bf5f-6171-458f-aef1-50ce57d030e1
+  sha: 562471cbcb0dd0fa42a76665acf0dbb68479b78a
+  size: 1927468
+docker/bridge-utils-1.5.tar.gz:
+  object_id: 5d74b47a-ec01-40bf-891c-ee18a87ed27a
+  sha: 19d2a58cd3a70f971aa931b40256174a847e60d6
+  size: 33243
+docker/docker-1.2.0:
+  object_id: 486e994d-b6ef-43ce-8f5c-0f0fdb622ad8
+  sha: 540459bc5d9f1cac17fe8654891814314db15e77
+  size: 13398472
+git/git-1.7.11.2.tar.gz:
+  object_id: 7cd4b71b-5162-49bd-9662-8c0b7e8775f1
+  sha: f67b4f6c0277250411c6872ae7b8a872ae11d313
+  size: 4015780
+golang/go1.2.1.linux-amd64.tar.gz:
+  object_id: 77e6e10b-41a9-4c56-b13e-c0894ef2fdea
+  sha: 7605f577ff6ac2d608a3a4e829b255ae2ebc8dcf
+  size: 56123695
+kubernetes/binaries.tar.gz:
+  object_id: 25326452-97ed-4207-83a5-0236eed86d75
+  sha: d569b21e014267853750c2b1a7cf843ea8a830a2
+  size: 14200925
