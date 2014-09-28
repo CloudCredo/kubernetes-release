@@ -14,3 +14,11 @@ check process controller-manager
   group vcap
   depends on etcd
   depends on apiserver
+
+check process scheduler
+  with pidfile /var/vcap/sys/run/scheduler/scheduler.pid
+  start program "/var/vcap/jobs/kubernetes-master/bin/scheduler_ctl start"
+    with timeout 60 seconds
+  stop program "/var/vcap/jobs/kubernetes-master/bin/scheduler_ctl stop"
+  group vcap
+  depends on apiserver
