@@ -1,5 +1,13 @@
+#!/bin/bash
 set -e -x
-cd kubernetes
-mkdir binaries
-tar -zxvf binaries.tar.gz -C binaries
-cp binaries/* ${BOSH_INSTALL_TARGET}
+export GOPATH=${HOME}/go-tools
+mkdir -p $GOPATH
+export GOROOT=/var/vcap/packages/golang
+export PATH=/var/vcap/packages/git/bin/:$GOROOT/bin:$GOPATH/bin:/var/vcap/packages/mercurial/bin:$PATH
+/var/vcap/packages/golang/bin/go get github.com/tools/godep
+mkdir -p $GOPATH/src/github.com/GoogleCloudPlatform/
+cp -r kubernetes $GOPATH/src/github.com/GoogleCloudPlatform/
+cd $GOPATH/src/github.com/GoogleCloudPlatform/kubernetes
+godep go build ./...
+make all
+cp ./_output/go/bin/* ${BOSH_INSTALL_TARGET}

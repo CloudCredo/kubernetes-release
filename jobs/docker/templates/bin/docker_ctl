@@ -48,7 +48,7 @@ case $1 in
         ip link set dev ${DOCKER_BRIDGE_NAME} up
         set -e
     fi
-    source /run/rudder/subnet.env
+    source /run/flannel/subnet.env
 
     # Start Docker daemon
     exec chpst -u ${DOCKER_USER}:${DOCKER_GROUP} docker --daemon \
@@ -56,8 +56,8 @@ case $1 in
         --pidfile ${DOCKER_PID_FILE} \
         --graph ${DOCKER_STORE_DIR}/docker \
         --host unix://${DOCKER_PID_DIR}/docker.sock \
-        --bip ${RUDDER_SUBNET} \
-        --mtu ${RUDDER_MTU} \
+        --bip ${FLANNEL_SUBNET} \
+        --mtu ${FLANNEL_MTU} \
         ${DOCKER_TCP:-} \
         ${DOCKER_DEBUG:-} \
         ${DOCKER_API_ENABLE_CORS:-} \
@@ -73,6 +73,13 @@ case $1 in
     ;;
 
   stop)
+    # Stop containers
+    docker_cmd="/var/vcap/packages/docker/bin/docker -H unix:///var/vcap/sys/run/docker/docker.sock"
+    running_containers=$($docker_cmd ps -q)
+    if [ -n "${running_containers}" ]; then
+      $docker_cmd kill $running_containers
+    fi
+
     # Stop Docker daemon
     kill_and_wait ${DOCKER_PID_FILE}
 

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+RUN_DIR=/var/vcap/sys/run/scheduler
+PIDFILE=$RUN_DIR/scheduler.pid
+JOB_DIR=/var/vcap/jobs/scheduler
+
+source /var/vcap/packages/common/utils.sh
+
+case $1 in
+
+  start)
+    pid_guard $PIDFILE "scheduler"
+
+    mkdir -p $RUN_DIR
+    chown -R vcap:vcap $RUN_DIR
+
+    echo $$ > $PIDFILE
+
+    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/scheduler \
+--address=0.0.0.0 \
+--master=127.0.0.1:8080 \
+--logtostderr=true
+    ;;
+
+  stop)
+    kill_and_wait $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage: scheduler_ctl {start|stop}"
+
+    ;;
+
+esac

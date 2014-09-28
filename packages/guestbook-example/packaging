@@ -1,2 +1,2 @@
 set -e -x
-cp kubernetes-examples/guestbook/*.json ${BOSH_INSTALL_TARGET}
+cp kubernetes/examples/guestbook/*.json ${BOSH_INSTALL_TARGET}

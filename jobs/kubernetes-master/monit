@@ -4,6 +4,7 @@ check process apiserver
     with timeout 60 seconds
   stop program "/var/vcap/jobs/kubernetes-master/bin/apiserver_ctl stop"
   group vcap
+  depends on etcd
 
 check process controller-manager
   with pidfile /var/vcap/sys/run/controller-manager/controller-manager.pid
@@ -11,3 +12,13 @@ check process controller-manager
     with timeout 60 seconds
   stop program "/var/vcap/jobs/kubernetes-master/bin/controller-manager_ctl stop"
   group vcap
+  depends on etcd
+  depends on apiserver
+
+check process scheduler
+  with pidfile /var/vcap/sys/run/scheduler/scheduler.pid
+  start program "/var/vcap/jobs/kubernetes-master/bin/scheduler_ctl start"
+    with timeout 60 seconds
+  stop program "/var/vcap/jobs/kubernetes-master/bin/scheduler_ctl stop"
+  group vcap
+  depends on apiserver

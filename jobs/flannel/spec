@@ -1,15 +1,15 @@
 ---
-name: rudder
+name: flannel
 
 packages:
   - common
   - git
   - golang
   - etcdctl
-  - rudder
+  - flannel
 
 templates:
-  rudder_ctl.erb: bin/rudder_ctl
+  flannel_ctl.erb: bin/flannel_ctl
 
 properties:
   networks.apps:
