@@ -48,7 +48,7 @@ case $1 in
         ip link set dev ${DOCKER_BRIDGE_NAME} up
         set -e
     fi
-    source /run/rudder/subnet.env
+    source /run/flannel/subnet.env
 
     # Start Docker daemon
     exec chpst -u ${DOCKER_USER}:${DOCKER_GROUP} docker --daemon \
@@ -56,8 +56,8 @@ case $1 in
         --pidfile ${DOCKER_PID_FILE} \
         --graph ${DOCKER_STORE_DIR}/docker \
         --host unix://${DOCKER_PID_DIR}/docker.sock \
-        --bip ${RUDDER_SUBNET} \
-        --mtu ${RUDDER_MTU} \
+        --bip ${FLANNEL_SUBNET} \
+        --mtu ${FLANNEL_MTU} \
         ${DOCKER_TCP:-} \
         ${DOCKER_DEBUG:-} \
         ${DOCKER_API_ENABLE_CORS:-} \

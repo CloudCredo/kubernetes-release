@@ -1,15 +1,15 @@
 #!/bin/bash
 
-RUN_DIR=/var/vcap/sys/run/rudder
-PIDFILE=$RUN_DIR/rudder.pid
-JOB_DIR=/var/vcap/jobs/rudder
+RUN_DIR=/var/vcap/sys/run/flannel
+PIDFILE=$RUN_DIR/flannel.pid
+JOB_DIR=/var/vcap/jobs/flannel
 
 source /var/vcap/packages/common/utils.sh
 
 case $1 in
 
   start)
-    pid_guard $PIDFILE "rudder"
+    pid_guard $PIDFILE "flanneld"
 
     mkdir -p $RUN_DIR
     chown -R vcap:vcap $RUN_DIR
@@ -22,7 +22,7 @@ case $1 in
     /var/vcap/packages/etcdctl/etcdctl set /coreos.com/network/config '{"Network":"10.100.0.0/16"}'
 
     <% my_ip = spec.networks.send(properties.networks.apps).ip %>
-    exec /var/vcap/packages/rudder/bin/rudder -iface=<%= my_ip %>
+    exec /var/vcap/packages/flannel/bin/flanneld -iface=<%= my_ip %>
     ;;
 
   stop)
@@ -31,7 +31,7 @@ case $1 in
     ;;
 
   *)
-    echo "Usage: rudder_ctl {start|stop}"
+    echo "Usage: flannel_ctl {start|stop}"
 
     ;;
 

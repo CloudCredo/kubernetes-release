@@ -1,7 +1,7 @@
 ---
-name: rudder
+name: flannel
 dependencies:
   - git
   - golang
 files:
-  - rudder/**/*
+  - flannel/**/*

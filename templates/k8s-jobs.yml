@@ -3,7 +3,7 @@ jobs:
     templates:
       - name: docker
       - name: etcd
-      - name: rudder
+      - name: flannel
       - name: kubernetes-minion
       - name: kubernetes-master
     instances: 1
@@ -21,7 +21,7 @@ jobs:
     templates:
       - name: docker
       - name: etcd
-      - name: rudder
+      - name: flannel
       - name: kubernetes-minion
     instances: 2
     resource_pool: default
@@ -37,7 +37,7 @@ jobs:
     templates:
       - name: guestbook-example
       - name: etcd
-      - name: rudder
+      - name: flannel
     instances: 1
     resource_pool: default
     networks:

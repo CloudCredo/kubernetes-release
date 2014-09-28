@@ -1,0 +1,6 @@
+check process flannel
+  with pidfile /var/vcap/sys/run/flannel/flannel.pid
+  start program "/var/vcap/jobs/flannel/bin/flannel_ctl start"
+    with timeout 60 seconds
+  stop program "/var/vcap/jobs/flannel/bin/flannel_ctl stop"
+  depends on etcd
