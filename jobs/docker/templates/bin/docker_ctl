@@ -73,6 +73,13 @@ case $1 in
     ;;
 
   stop)
+    # Stop containers
+    docker_cmd="/var/vcap/packages/docker/bin/docker -H unix:///var/vcap/sys/run/docker/docker.sock"
+    running_containers=$($docker_cmd ps -q)
+    if [ -n "${running_containers}" ]; then
+      $docker_cmd kill $running_containers
+    fi
+
     # Stop Docker daemon
     kill_and_wait ${DOCKER_PID_FILE}
 
