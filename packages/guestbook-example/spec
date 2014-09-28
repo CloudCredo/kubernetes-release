@@ -1,4 +1,4 @@
 ---
 name: guestbook-example
 files:
-  - kubernetes-examples/guestbook/**/*
+  - kubernetes/examples/guestbook/**/*

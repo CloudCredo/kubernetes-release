@@ -4,9 +4,9 @@
 [submodule "src/etcdctl"]
 	path = src/etcdctl
 	url = https://github.com/coreos/etcdctl.git
-[submodule "src/.kubernetes"]
-	path = src/.kubernetes
-	url = https://github.com/GoogleCloudPlatform/kubernetes.git
 [submodule "src/flannel"]
 	path = src/flannel
 	url = https://github.com/coreos/flannel.git
+[submodule "src/kubernetes"]
+	path = src/kubernetes
+	url = https://github.com/GoogleCloudPlatform/kubernetes.git
