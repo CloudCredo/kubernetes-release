@@ -4,6 +4,8 @@ check process kubelet
     with timeout 60 seconds
   stop program "/var/vcap/jobs/kubernetes-minion/bin/kubelet_ctl stop"
   group vcap
+  depends on docker
+  depends on etcd
 
 check process proxy
   with pidfile /var/vcap/sys/run/proxy/proxy.pid
@@ -11,3 +13,4 @@ check process proxy
     with timeout 60 seconds
   stop program "/var/vcap/jobs/kubernetes-minion/bin/proxy_ctl stop"
   group vcap
+  depends on etcd
