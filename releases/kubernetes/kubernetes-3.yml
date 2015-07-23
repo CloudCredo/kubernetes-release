@@ -1,0 +1,109 @@
+---
+packages:
+- name: bosh-helpers
+  version: 55717f488eb12fd47c95fd524ab1cd6304c7ce7e
+  fingerprint: 55717f488eb12fd47c95fd524ab1cd6304c7ce7e
+  sha1: b1e4eb91654729db0039b6d472f86117881104fc
+  dependencies: []
+- name: common
+  version: a582714be57d8cfebe0e10099e2cd2d4b359a414
+  fingerprint: a582714be57d8cfebe0e10099e2cd2d4b359a414
+  sha1: 36aa6c5082b110dc76e2c8ed51ff6884a5557700
+  dependencies: []
+- name: docker
+  version: 810a950d2a996bdaf1573a8e6509fd6f1a924209
+  fingerprint: 810a950d2a996bdaf1573a8e6509fd6f1a924209
+  sha1: 269bd93783600c4089477b78d429bb27c550e86d
+  dependencies: []
+- name: etcd
+  version: 67d15ee6422b995f97c8bb88eafc5daf1f24e710
+  fingerprint: 67d15ee6422b995f97c8bb88eafc5daf1f24e710
+  sha1: 15bbcff8f3d4323933b003e15bae3aa6e8421424
+  dependencies:
+  - golang1.4
+- name: etcdctl
+  version: 938096b89e64a75d130fe63532695ae057e41866
+  fingerprint: 938096b89e64a75d130fe63532695ae057e41866
+  sha1: a477b5f4a1f5f547ea54c0934a0c099fedb294d4
+  dependencies:
+  - git
+  - golang
+- name: flannel
+  version: 7e08b1433c8a05154e125acf73493be6a2f58c9c
+  fingerprint: 7e08b1433c8a05154e125acf73493be6a2f58c9c
+  sha1: 9177e4f450f4da0a737b440eb5387694bbc0fc84
+  dependencies:
+  - git
+  - golang
+- name: git
+  version: 889205bef999ca6f078d4ee7b779186b45c1fa63
+  fingerprint: 889205bef999ca6f078d4ee7b779186b45c1fa63
+  sha1: acdfb4f4cfd4089ea5728fa59cf212ad1cf7308c
+  dependencies: []
+- name: golang
+  version: aa5f90f06ada376085414bfc0c56c8cd67abba9c
+  fingerprint: aa5f90f06ada376085414bfc0c56c8cd67abba9c
+  sha1: 796e8440a735b31b961f905745be18196a16cc2d
+  dependencies: []
+- name: golang1.4
+  version: f57ddbc8d55d7a0f08775bf76bb6a27dc98c7ea7
+  fingerprint: f57ddbc8d55d7a0f08775bf76bb6a27dc98c7ea7
+  sha1: 840ef31dc57272fa0d24c6bf144eaa50623a5a61
+  dependencies: []
+- name: guestbook-example
+  version: a55b983c11fb610e4697652d954b41b264471ec7
+  fingerprint: a55b983c11fb610e4697652d954b41b264471ec7
+  sha1: a6c33caa6eb95b46cbf7bab736f9c876f709db57
+  dependencies: []
+- name: kubernetes
+  version: 45598fee1467d6b4d37d43d55df52b3a68d6c00c
+  fingerprint: 45598fee1467d6b4d37d43d55df52b3a68d6c00c
+  sha1: 614cfc5f3004c2e7dc1c6770a8f2dcf1becc7beb
+  dependencies:
+  - git
+  - golang1.4
+  - mercurial
+- name: mercurial
+  version: 0deb3f48206b4d4bd7aeb9e2f67ccc3371cce1df
+  fingerprint: 0deb3f48206b4d4bd7aeb9e2f67ccc3371cce1df
+  sha1: 61856005809e451d6c930e32ab47a41a894fce68
+  dependencies:
+  - python
+- name: python
+  version: 2ba6298a45ec74b87e1af08b9b49d7fb63d6b785
+  fingerprint: 2ba6298a45ec74b87e1af08b9b49d7fb63d6b785
+  sha1: d6c690ac76bc920477c26eff9790ab61d158ff3b
+  dependencies: []
+jobs:
+- name: docker
+  version: 8e0639c196c377595c7eef6d4cd1f5ea56248c7c
+  fingerprint: 8e0639c196c377595c7eef6d4cd1f5ea56248c7c
+  sha1: f9c0a0bff9bc9c85199f57849170e12b800818ed
+- name: etcd
+  version: 0695df8bb8529d7d8c5f4135f3be8d94c67c9c33
+  fingerprint: 0695df8bb8529d7d8c5f4135f3be8d94c67c9c33
+  sha1: 4c75a5d7f1df5bb67c628d5f0a29d3990c9bc21d
+- name: flannel
+  version: dfdd1076d7bd62342044a164e13aa8930a88c79d
+  fingerprint: dfdd1076d7bd62342044a164e13aa8930a88c79d
+  sha1: 5bedd4e14f7ca0296efbf897ed4a3f55ccf38023
+- name: guestbook-example
+  version: ab650db4db26c01e649adac614ef92a912b65a00
+  fingerprint: ab650db4db26c01e649adac614ef92a912b65a00
+  sha1: ef1e281a21566bc9a19e8fc73a280583141277d4
+- name: kubernetes-master
+  version: 07474df5b6c730d1455b2c93cf35c781c604356a
+  fingerprint: 07474df5b6c730d1455b2c93cf35c781c604356a
+  sha1: 34555ee03a6fe6ba822f7ca364d5b7b47719de74
+- name: kubernetes-minion
+  version: 3b3aab59cad845db9b5b4f9271498d08cefdab0f
+  fingerprint: 3b3aab59cad845db9b5b4f9271498d08cefdab0f
+  sha1: d8829b24cb38b2e66733bcadc5fcd598d036827e
+license:
+  version: 0fbc9511a7e7f3a4d2f1af47f5ed327237b5f06c
+  fingerprint: 0fbc9511a7e7f3a4d2f1af47f5ed327237b5f06c
+  sha1: 8390a7c9448dc0de548a4ead1b0d6d548819597e
+commit_hash: 81d9aee8
+uncommitted_changes: true
+name: kubernetes
+version: '3'
