@@ -19,10 +19,14 @@ case $1 in
     mkdir -p /dev/net
     mknod /dev/net/tun c 10 200
 
+    <%
+        my_ip = spec.networks.send(properties.networks.apps).ip
+        etcd_nodes = p('etcd.machines').map{|n| "http://#{n}:4001"}.join(',')
+    %>
+
     /var/vcap/packages/etcdctl/etcdctl set /coreos.com/network/config '{"Network":"10.100.0.0/16"}'
 
-    <% my_ip = spec.networks.send(properties.networks.apps).ip %>
-    exec /var/vcap/packages/flannel/bin/flanneld -iface=<%= my_ip %>
+    exec /var/vcap/packages/flannel/bin/flanneld -iface=<%= my_ip %> --etcd-endpoints=<%= etcd_nodes %>
     ;;
 
   stop)

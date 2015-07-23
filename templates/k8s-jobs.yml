@@ -15,8 +15,6 @@ jobs:
     properties:
       networks:
         apps: default
-      apiserver:
-        machines: (( merge ))
   - name: minion
     templates:
       - name: docker
@@ -36,20 +34,19 @@ jobs:
     lifecycle: errand
     templates:
       - name: guestbook-example
-      - name: etcd
       - name: flannel
     instances: 1
     resource_pool: default
     networks:
       - name: default
-        static_ips: (( merge ))
     properties:
-      apiserver:
-        host: (( static_ips(0) ))
       networks:
         apps: default
 
 properties:
+  apiserver:
+    host: (( static_ips(0) ))
+    machines: (( merge ))
   etcd:
     machines: (( merge ))
 

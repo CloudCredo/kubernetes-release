@@ -12,5 +12,7 @@ templates:
   flannel_ctl.erb: bin/flannel_ctl
 
 properties:
+  etcd.machines:
+    description: "Addresses of etcd machines"
   networks.apps:
     description: "Used to get our IP address"

@@ -2,7 +2,7 @@
 name: kubernetes
 dependencies:
   - git
-  - golang
+  - golang1.4
   - mercurial
 files:
   - kubernetes/**/*

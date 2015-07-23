@@ -3,4 +3,6 @@ check process flannel
   start program "/var/vcap/jobs/flannel/bin/flannel_ctl start"
     with timeout 60 seconds
   stop program "/var/vcap/jobs/flannel/bin/flannel_ctl stop"
+<% if spec.job.templates.any?{|t| t.name == 'etcd'} %>
   depends on etcd
+<% end %>

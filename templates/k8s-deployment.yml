@@ -18,8 +18,8 @@ update:
   canaries: 0
   canary_watch_time: 30000-240000
   update_watch_time:  30000-240000
-  max_in_flight: 32
-  serial: false
+  max_in_flight: 1
+  serial: true
 
 networks: (( merge ))
 jobs: (( merge ))

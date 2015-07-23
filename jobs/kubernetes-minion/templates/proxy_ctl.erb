@@ -16,7 +16,7 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/proxy --etcd_servers=http://127.0.0.1:4001 --logtostderr=true
+    exec chpst /var/vcap/packages/kubernetes/kube-proxy --master=<%= p('apiserver.host') %>:8080 --logtostderr=true
     ;;
 
   stop)

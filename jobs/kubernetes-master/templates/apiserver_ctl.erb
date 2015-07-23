@@ -3,6 +3,7 @@
 RUN_DIR=/var/vcap/sys/run/apiserver
 PIDFILE=$RUN_DIR/apiserver.pid
 JOB_DIR=/var/vcap/jobs/apiserver
+CERT_DIR=${RUN_DIR}/certs
 
 source /var/vcap/packages/common/utils.sh
 
@@ -11,16 +12,17 @@ case $1 in
   start)
     pid_guard $PIDFILE "apiserver"
 
-    mkdir -p $RUN_DIR
+    mkdir -p $CERT_DIR
     chown -R vcap:vcap $RUN_DIR
 
     echo $$ > $PIDFILE
 
-    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/apiserver \
---address=0.0.0.0 \
+    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/kube-apiserver \
+--insecure-bind-address=0.0.0.0 \
 --port=8080 \
---etcd_servers=http://127.0.0.1:4001 \
---machines=<%= p('apiserver.machines').join(',') %> \
+--etcd-servers=http://127.0.0.1:4001 \
+--service-cluster-ip-range="10.0.0.0/24" \
+--cert-dir=$CERT_DIR \
 --logtostderr=true
     ;;
 

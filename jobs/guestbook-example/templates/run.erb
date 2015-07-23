@@ -3,17 +3,18 @@ set -e
 API_HOST=<%= properties.apiserver.host %>
 PATH=$PATH:/var/vcap/packages/kubernetes/
 cd /var/vcap/packages/guestbook-example
-kubecfg -h http://${API_HOST}:8080 -c redis-master.json create pods
-kubecfg -h http://${API_HOST}:8080 -c redis-master-service.json create services
-kubecfg -h http://${API_HOST}:8080 -c redis-slave-controller.json create replicationControllers
-kubecfg -h http://${API_HOST}:8080 -c redis-slave-service.json create services
-kubecfg -h http://${API_HOST}:8080 -c frontend-controller.json create replicationControllers
+kubectl -s http://${API_HOST}:8080 create -f redis-master-controller.yaml
+kubectl -s http://${API_HOST}:8080 create -f redis-master-service.yaml
+kubectl -s http://${API_HOST}:8080 create -f redis-slave-controller.yaml
+kubectl -s http://${API_HOST}:8080 create -f redis-slave-service.yaml
+kubectl -s http://${API_HOST}:8080 create -f frontend-controller.yaml
+kubectl -s http://${API_HOST}:8080 create -f frontend-service.yaml
 
 frontend_pod_ips=()
 while [ "${#frontend_pod_ips[@]}" -ne "3" ]
 do
   sleep 1
-  frontend_pod_ips=($(kubecfg -h http://${API_HOST}:8080 '-template={{range.Items}}{{.CurrentState.PodIP}} {{end}}' '-l=name=frontend' list pods))
+  frontend_pod_ips=($(kubectl -s http://${API_HOST}:8080 --template='{{range.items}}{{.status.podIP}} {{end}}' '-l=name=frontend' get pods))
 done
 
 for pod_ip in "${frontend_pod_ips[@]}"

@@ -15,7 +15,7 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/controller-manager \
+    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/kube-controller-manager \
 --master=127.0.0.1:8080 \
 --logtostderr=true
     ;;

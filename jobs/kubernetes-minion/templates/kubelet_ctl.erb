@@ -1,8 +1,9 @@
 #!/bin/bash
 
 RUN_DIR=/var/vcap/sys/run/kubelet
-PIDFILE=$RUN_DIR/kubelet.pid
+PIDFILE=${RUN_DIR}/kubelet.pid
 JOB_DIR=/var/vcap/jobs/kubelet
+CERT_DIR=${RUN_DIR}/certs
 
 source /var/vcap/packages/common/utils.sh
 
@@ -11,7 +12,7 @@ case $1 in
   start)
     pid_guard $PIDFILE "kubelet"
 
-    mkdir -p $RUN_DIR
+    mkdir -p $CERT_DIR
     chown -R vcap:vcap $RUN_DIR
 
     echo $$ > $PIDFILE
@@ -21,9 +22,11 @@ case $1 in
 --address=<%= my_ip %> \
 --port=10250 \
 --hostname_override=<%= my_ip %> \
---etcd_servers=http://127.0.0.1:4001 \
+--api-servers=http://<%= p('apiserver.host') %>:8080 \
+--cert-dir=$CERT_DIR \
 --logtostderr=true \
---docker_endpoint=unix:///var/vcap/sys/run/docker/docker.sock
+--docker-endpoint=unix:///var/vcap/sys/run/docker/docker.sock \
+--root-dir=/var/vcap/sys/run/kubelet
     ;;
 
   stop)

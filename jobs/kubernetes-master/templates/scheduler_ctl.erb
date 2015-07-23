@@ -16,7 +16,7 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/scheduler \
+    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/kube-scheduler \
 --address=0.0.0.0 \
 --master=127.0.0.1:8080 \
 --logtostderr=true

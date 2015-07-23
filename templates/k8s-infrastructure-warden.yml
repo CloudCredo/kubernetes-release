@@ -52,9 +52,6 @@ jobs:
     networks:
       - name: default
         static_ips: (( static_ips(0) ))
-    properties:
-      apiserver:
-        machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
   - name: minion
     instances: 2
     networks:
@@ -65,11 +62,10 @@ jobs:
     instances: 1
     networks:
       - name: default
-        static_ips: (( static_ips(3) ))
-    properties:
-      apiserver:
-        host: (( jobs.master.networks.default.static_ips.[0] ))
 
 properties:
+  apiserver:
+    host: (( jobs.master.networks.default.static_ips.[0] ))
+    machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
   etcd:
     machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
