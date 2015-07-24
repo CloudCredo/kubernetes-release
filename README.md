@@ -13,7 +13,7 @@ Deploy [Kubernetes](http://kubernetes.io) easily with this
 $ bosh upload stemcell https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/warden/bosh-stemcell-389-warden-boshlite-ubuntu-trusty-go_agent.tgz
 $ git clone https://github.com/cloudcredo/kubernetes-release
 $ cd kubernetes-release
-$ bosh upload release releases/kubernetes/kubernetes-3.yml
+$ bosh upload release releases/kubernetes/kubernetes-4.yml
 $ ./generate_deployment_manifest warden $(bosh status --uuid) > manifest.yml
 $ bosh deployment manifest.yml
 $ bosh -n deploy
