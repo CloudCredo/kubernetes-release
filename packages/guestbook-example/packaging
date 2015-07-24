@@ -1,2 +1,3 @@
 set -e -x
 cp kubernetes/examples/guestbook/*.yaml ${BOSH_INSTALL_TARGET}
+echo '  type: NodePort' >> ${BOSH_INSTALL_TARGET}/frontend-service.yaml

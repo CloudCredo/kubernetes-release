@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+API_HOST=<%= p('apiserver.host') %>
+PATH=$PATH:/var/vcap/packages/kubernetes/
+cd /var/vcap/jobs/create-kubernetes-dns/bin
+kubectl -s http://${API_HOST}:8080 create -f skydns-controller.yaml
+kubectl -s http://${API_HOST}:8080 create -f skydns-service.yaml
+until kubectl -s http://${API_HOST}:8080 get pod --namespace=kube-system | grep 'kube-dns-.* 4/4 '
+do
+  sleep 5
+done

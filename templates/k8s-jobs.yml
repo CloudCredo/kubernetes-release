@@ -30,6 +30,17 @@ jobs:
     properties:
       networks:
         apps: default
+  - name: create-kubernetes-dns
+    lifecycle: errand
+    templates:
+      - name: create-kubernetes-dns
+    instances: 1
+    resource_pool: default
+    networks:
+      - name: default
+    properties:
+      networks:
+        apps: default
   - name: guestbook-example
     lifecycle: errand
     templates:

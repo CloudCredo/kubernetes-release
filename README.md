@@ -19,6 +19,14 @@ $ bosh deployment manifest.yml
 $ bosh -n deploy
 ```
 
+## Enabling DNS
+
+The release includes an errand to deploy the DNS add-on to Kubernetes:
+
+```
+$ bosh run errand create-kubernetes-dns
+```
+
 ## Running the Guestbook example
 
 The release includes an errand to deploy the

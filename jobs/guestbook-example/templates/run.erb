@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-API_HOST=<%= properties.apiserver.host %>
+API_HOST=<%= p('apiserver.host') %>
 PATH=$PATH:/var/vcap/packages/kubernetes/
 cd /var/vcap/packages/guestbook-example
 kubectl -s http://${API_HOST}:8080 create -f redis-master-controller.yaml
