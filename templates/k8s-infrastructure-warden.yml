@@ -1,3 +1,6 @@
+compilation:
+  cloud_properties: {}
+
 resource_pools:
   - name: default
     network: default
