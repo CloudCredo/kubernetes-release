@@ -1,0 +1,15 @@
+---
+platform: linux
+
+image: docker:///concourse/concourse-ci
+
+inputs:
+  - name: release-repo
+
+run:
+  path: release-repo/ci/generate-manifest
+
+params:
+  INFRASTRUCTURE:
+  DIRECTOR_UUID:
+  AWS_SUBNET_ID:

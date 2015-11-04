@@ -1,0 +1,198 @@
+groups:
+- name: kubernetes
+  jobs:
+  - rc
+  - deploy
+  - guestbook
+  - shipit
+  - patch
+
+resources:
+- name: aws-deployment
+  type: bosh-deployment
+  source:
+    target: {{bosh_target}}
+    username: {{bosh_username}}
+    password: {{bosh_password}}
+    deployment: {{bosh_deployment}}
+- name: aws-stemcell
+  type: bosh-io-stemcell
+  source:
+    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+- name: release-repo
+  type: git
+  source:
+    uri: {{release_repo}}
+    branch: develop
+    ignore_paths: [.final_builds, releases]
+    private_key: {{private_key}}
+- name: release-repo-master
+  type: git
+  source:
+    uri: {{release_repo}}
+    branch: master
+    private_key: {{private_key}}
+- name: version
+  type: semver
+  source:
+    bucket: {{release_bucket}}
+    key: current-version
+    access_key_id: {{pipeline_bucket_access_key}}
+    secret_access_key: {{pipeline_bucket_secret_key}}
+- name: candidate-release
+  type: s3
+  source:
+    bucket: {{release_candidate_bucket}}
+    regexp: kubernetes-(.*).tgz
+    access_key_id: {{pipeline_bucket_access_key}}
+    secret_access_key: {{pipeline_bucket_secret_key}}
+- name: final-release
+  type: s3
+  source:
+    bucket: {{release_bucket}}
+    regexp: kubernetes-(.*).tgz
+    access_key_id: {{pipeline_bucket_access_key}}
+    secret_access_key: {{pipeline_bucket_secret_key}}
+
+jobs:
+- name: rc
+  public: true
+  serial_groups: [version]
+  plan:
+  - get: release-repo
+    trigger: true
+  - get: version
+    params:
+      pre: rc
+  - task: create-candidate-release
+    file: release-repo/ci/create-candidate-release.yml
+    config:
+      params:
+        RELEASE_NAME: kubernetes
+  - put: candidate-release
+    params:
+      from: create-candidate-release/kubernetes-(.*).tgz
+  - put: version
+    params:
+      file: version/number
+
+- name: deploy
+  serial_groups: [version]
+  serial: true
+  plan:
+  - aggregate:
+    - get: release-repo
+      passed: [rc]
+      trigger: true
+    - get: candidate-release
+      passed: [rc]
+      trigger: true
+    - get: version
+      passed: [rc]
+    - get: bosh-stemcell
+      resource: aws-stemcell
+  - aggregate:
+    - task: generate-warden-manifest
+      file: release-repo/ci/generate-manifest.yml
+      config:
+        params:
+          INFRASTRUCTURE: warden
+          DIRECTOR_UUID: not-deployed-in-pipeline
+    - task: generate-aws-manifest
+      file: release-repo/ci/generate-manifest.yml
+      config:
+        params:
+          INFRASTRUCTURE: aws
+          DIRECTOR_UUID: {{bosh_director_uuid}}
+          AWS_SUBNET_ID: {{aws_subnet_id}}
+  - task: delete-deployment
+    file: release-repo/ci/delete-deployment.yml
+    config:
+      params:
+        BOSH_TARGET: {{bosh_target}}
+        BOSH_USERNAME: {{bosh_username}}
+        BOSH_PASSWORD: {{bosh_password}}
+        BOSH_DEPLOYMENT: {{bosh_deployment}}
+  - put: aws-deployment
+    params:
+      manifest: generate-aws-manifest/manifest.yml
+      stemcells:
+      - bosh-stemcell/*.tgz
+      releases:
+      - candidate-release/kubernetes-*.tgz
+  - task: deploy-dns
+    file: release-repo/ci/run-errand.yml
+    config:
+      params:
+        BOSH_TARGET: {{bosh_target}}
+        BOSH_USERNAME: {{bosh_username}}
+        BOSH_PASSWORD: {{bosh_password}}
+        BOSH_DEPLOYMENT: {{bosh_deployment}}
+        BOSH_ERRAND: create-kubernetes-dns
+
+- name: guestbook
+  serial: true
+  serial_groups: [version]
+  plan:
+  - get: release-repo
+    passed: [deploy]
+    trigger: true
+  - task: deploy-guestbook-example
+    file: release-repo/ci/run-errand.yml
+    config:
+      params:
+        BOSH_TARGET: {{bosh_target}}
+        BOSH_USERNAME: {{bosh_username}}
+        BOSH_PASSWORD: {{bosh_password}}
+        BOSH_DEPLOYMENT: {{bosh_deployment}}
+        BOSH_ERRAND: guestbook-example
+
+- name: shipit
+  serial_groups: [version]
+  plan:
+  - aggregate:
+    - get: release-repo
+      passed: [guestbook]
+      trigger: true
+      params:
+        submodules: none
+        fetch: [master]
+    - get: candidate-release
+      passed: [deploy]
+    - get: version
+      passed: [deploy]
+      params:
+        bump: final
+  - task: finalise-release
+    file: release-repo/ci/finalise-release.yml
+    config:
+      params:
+        RELEASE_NAME: kubernetes
+        BUCKET_ACCESS_KEY: {{pipeline_bucket_access_key}}
+        BUCKET_SECRET_KEY: {{pipeline_bucket_secret_key}}
+  - aggregate:
+    - put: version
+      params:
+        file: version/number
+    - put: release-repo-master
+      params:
+        repository: finalise-release/release-repo
+        tag: version/number
+        tag_prefix: v
+    - put: final-release
+      params:
+        from: finalise-release/kubernetes-(.*).tgz
+
+- name: patch
+  public: true
+  serial_groups: [version]
+  plan:
+  - get: version
+    passed: [shipit]
+    params:
+      bump: patch
+      pre: rc
+    trigger: true
+  - put: version
+    params:
+      file: version/number

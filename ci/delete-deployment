@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+set -x
+
+bosh -n target "${BOSH_TARGET}"
+
+set +x
+bosh -n login "${BOSH_USERNAME}" "${BOSH_PASSWORD}"
+set -x
+
+bosh -n delete deployment "${BOSH_DEPLOYMENT}"

@@ -35,6 +35,21 @@ The release includes an errand to deploy the
 $ bosh run errand guestbook-example
 ```
 
+## Pipeline
+
+The CI pipeline for this release is implemented using [Concourse](http://concourse.ci/).
+
+![k8s pipeline](ci/concourse.png)
+
+Edit the provided `vars.yml` and then run the following commands against
+your deployed Concourse:
+
+```
+$ fly -t k8s-ci login -c https://concourse.example.com
+$ fly -t k8s-ci set-pipeline -p kubernetes -c pipeline.yml -l vars.yml
+$ fly -t k8s-ci unpause-pipeline -p kubernetes
+```
+
 ## Thanks
 
 Thanks to [Brian Ketelsen](https://github.com/bketelsen/coreos-kubernetes-digitalocean)

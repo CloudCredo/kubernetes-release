@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e -x
+
+ROOT="$PWD"
+
+pushd release-repo/
+
+  ./generate_deployment_manifest "$INFRASTRUCTURE" "$DIRECTOR_UUID" > "${ROOT}/manifest.yml"
+
+  if [ "$INFRASTRUCTURE" == "aws" ]
+  then
+    sed -i "s/subnet-00000000/${AWS_SUBNET_ID}/g" "${ROOT}/manifest.yml"
+  fi
+popd

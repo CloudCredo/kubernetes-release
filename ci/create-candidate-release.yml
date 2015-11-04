@@ -1,0 +1,14 @@
+---
+platform: linux
+
+image: docker:///concourse/concourse-ci
+
+inputs:
+  - name: release-repo
+  - name: version
+
+run:
+  path: release-repo/ci/create-candidate-release
+
+params:
+  RELEASE_NAME:

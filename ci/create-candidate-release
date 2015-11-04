@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+ROOT="$PWD"
+VERSION="$(cat version/number)"
+
+pushd release-repo/
+  bosh -n create release --with-tarball --name "$RELEASE_NAME" --version "$VERSION"
+  mv dev_releases/${RELEASE_NAME}/${RELEASE_NAME}-*.tgz "$ROOT"
+popd
