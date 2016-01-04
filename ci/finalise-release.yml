@@ -1,0 +1,17 @@
+---
+platform: linux
+
+image: docker:///concourse/concourse-ci
+
+inputs:
+  - name: release-repo
+  - name: version
+  - name: candidate-release
+
+run:
+  path: release-repo/ci/finalise-release
+
+params:
+  RELEASE_NAME:
+  BUCKET_ACCESS_KEY:
+  BUCKET_SECRET_KEY:

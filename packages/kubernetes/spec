@@ -6,3 +6,5 @@ dependencies:
   - mercurial
 files:
   - kubernetes/**/*
+excluded_files:
+  - kubernetes/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/testing/data/symlink

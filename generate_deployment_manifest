@@ -7,7 +7,7 @@ infrastructure=$1
 director_uuid=$2
 
 if [ "$#" -lt 2 ]; then
-  echo "usage: ./generate_deployment_manifest <warden> <director_uuid> [stubs...]"
+  echo "usage: ./generate_deployment_manifest <warden|aws> <director_uuid> [stubs...]"
   exit 1
 fi
 

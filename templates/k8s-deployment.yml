@@ -10,7 +10,7 @@ compilation:
   workers: 4
   network: default
   reuse_compilation_vms: false
-  cloud_properties: {}
+  cloud_properties: (( merge ))
 
 resource_pools: (( merge ))
 

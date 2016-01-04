@@ -5,7 +5,7 @@ packages:
   - common
   - git
   - golang
-  - etcdctl
+  - etcd
   - flannel
 
 templates:

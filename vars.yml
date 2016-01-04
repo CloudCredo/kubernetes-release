@@ -1,0 +1,15 @@
+---
+aws_subnet_id: subnet-11111111
+bosh_director_uuid: aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+bosh_target: 203.0.113.10
+bosh_username: admin
+bosh_password: your-str0ng-password
+bosh_deployment: kubernetes
+pipeline_bucket_access_key: aws-access-key-id
+pipeline_bucket_secret_key: aws-secret-access-key
+private_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  -----END RSA PRIVATE KEY-----
+release_repo: git@github.com:CloudCredo/kubernetes-release.git
+release_bucket: kubernetes-bosh-releases
+release_candidate_bucket: kubernetes-bosh-release-candidates

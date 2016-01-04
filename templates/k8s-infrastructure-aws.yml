@@ -1,0 +1,63 @@
+compilation:
+  cloud_properties:
+    availability_zone: us-east-1a
+    instance_type: m3.large
+
+resource_pools:
+  - name: default
+    network: default
+    stemcell:
+      name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+      version: latest
+    cloud_properties:
+      instance_type: m3.large
+
+networks:
+  - name: default
+    type: manual
+    subnets:
+      - range: 10.0.18.0/24
+        reserved:
+        - 10.0.18.2
+        - 10.0.18.3
+        - 10.0.18.4
+        - 10.0.18.5
+        - 10.0.18.6
+        - 10.0.18.7
+        - 10.0.18.8
+        - 10.0.18.9
+        static:
+        - 10.0.18.10
+        - 10.0.18.11
+        - 10.0.18.12
+        - 10.0.18.13
+        cloud_properties:
+          subnet: subnet-00000000
+        dns:
+        - 10.0.0.2
+        gateway: 10.0.18.1
+        range: 10.0.18.0/24
+
+jobs:
+  - name: master
+    instances: 1
+    networks:
+      - name: default
+        static_ips: (( static_ips(0) ))
+  - name: minion
+    instances: 2
+    networks:
+      - name: default
+        static_ips: (( static_ips(1, 2) ))
+  - name: guestbook-example
+    lifecycle: errand
+    instances: 1
+    networks:
+      - name: default
+
+properties:
+  apiserver:
+    host: (( jobs.master.networks.default.static_ips.[0] ))
+    machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
+  etcd:
+    machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
