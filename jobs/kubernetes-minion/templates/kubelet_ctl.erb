@@ -17,7 +17,7 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    <% my_ip = spec.networks.send(properties.networks.apps).ip %>
+    <% my_ip = spec.networks.to_h.values.first.ip %>
     exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/kubelet \
 --address=<%= my_ip %> \
 --port=10250 \
