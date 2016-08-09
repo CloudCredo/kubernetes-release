@@ -1,8 +1,8 @@
 #!/bin/bash
 
+ROOT_DIR=/var/vcap/data/kubelet
 RUN_DIR=/var/vcap/sys/run/kubelet
 PIDFILE=${RUN_DIR}/kubelet.pid
-JOB_DIR=/var/vcap/jobs/kubelet
 CERT_DIR=${RUN_DIR}/certs
 
 source /var/vcap/packages/common/utils.sh
@@ -12,6 +12,7 @@ case $1 in
   start)
     pid_guard $PIDFILE "kubelet"
 
+    mkdir -p $ROOT_DIR
     mkdir -p $CERT_DIR
 
     echo $$ > $PIDFILE
@@ -25,7 +26,7 @@ case $1 in
 --cert-dir=$CERT_DIR \
 --logtostderr=true \
 --docker-endpoint=unix:///var/vcap/sys/run/docker/docker.sock \
---root-dir=/var/vcap/sys/run/kubelet \
+--root-dir=$ROOT_DIR \
 --cluster_dns=10.0.0.10 \
 --cluster_domain=cluster.local
     ;;
