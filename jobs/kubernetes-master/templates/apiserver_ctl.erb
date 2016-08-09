@@ -13,11 +13,10 @@ case $1 in
     pid_guard $PIDFILE "apiserver"
 
     mkdir -p $CERT_DIR
-    chown -R vcap:vcap $RUN_DIR
 
     echo $$ > $PIDFILE
 
-    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/kube-apiserver \
+    exec /var/vcap/packages/kubernetes/bin/kube-apiserver \
 --insecure-bind-address=0.0.0.0 \
 --port=8080 \
 --etcd-servers=http://127.0.0.1:4001 \

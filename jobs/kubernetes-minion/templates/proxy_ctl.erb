@@ -12,11 +12,10 @@ case $1 in
     pid_guard $PIDFILE "proxy"
 
     mkdir -p $RUN_DIR
-    chown -R vcap:vcap $RUN_DIR
 
     echo $$ > $PIDFILE
 
-    exec chpst /var/vcap/packages/kubernetes/kube-proxy --master=<%= p('apiserver.host') %>:8080 --logtostderr=true
+    exec /var/vcap/packages/kubernetes/bin/kube-proxy --master=<%= p('apiserver.host') %>:8080 --logtostderr=true
     ;;
 
   stop)

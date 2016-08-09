@@ -11,11 +11,10 @@ case $1 in
     pid_guard $PIDFILE "controller-manager"
 
     mkdir -p $RUN_DIR
-    chown -R vcap:vcap $RUN_DIR
 
     echo $$ > $PIDFILE
 
-    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/kube-controller-manager \
+    exec /var/vcap/packages/kubernetes/bin/kube-controller-manager \
 --master=127.0.0.1:8080 \
 --logtostderr=true
     ;;

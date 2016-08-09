@@ -12,11 +12,10 @@ case $1 in
     pid_guard $PIDFILE "scheduler"
 
     mkdir -p $RUN_DIR
-    chown -R vcap:vcap $RUN_DIR
 
     echo $$ > $PIDFILE
 
-    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/kube-scheduler \
+    exec /var/vcap/packages/kubernetes/bin/kube-scheduler \
 --address=0.0.0.0 \
 --master=127.0.0.1:8080 \
 --logtostderr=true

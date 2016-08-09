@@ -13,12 +13,11 @@ case $1 in
     pid_guard $PIDFILE "kubelet"
 
     mkdir -p $CERT_DIR
-    chown -R vcap:vcap $RUN_DIR
 
     echo $$ > $PIDFILE
 
     <% my_ip = spec.networks.to_h.values.first.ip %>
-    exec chpst -u vcap:vcap /var/vcap/packages/kubernetes/kubelet \
+    exec /var/vcap/packages/kubernetes/bin/kubelet \
 --address=<%= my_ip %> \
 --port=10250 \
 --hostname_override=<%= my_ip %> \
