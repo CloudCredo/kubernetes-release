@@ -10,7 +10,7 @@ Deploy [Kubernetes](http://kubernetes.io) easily with this
 * Deploy Kubernetes:
 
 ```
-$ bosh upload stemcell https://s3.amazonaws.com/bosh-jenkins-artifacts/bosh-stemcell/warden/bosh-stemcell-389-warden-boshlite-ubuntu-trusty-go_agent.tgz
+$ bosh upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent?v=3262.2
 $ git clone https://github.com/cloudcredo/kubernetes-release
 $ cd kubernetes-release
 $ bosh upload release releases/kubernetes/kubernetes-4.yml

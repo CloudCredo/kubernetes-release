@@ -1,0 +1,20 @@
+meta:
+  aws:
+    az: us-east-1a
+
+director_uuid: DIRECTOR_UUID
+
+networks:
+- name: default
+  type: manual
+  subnets:
+  - range: 10.0.18.0/24
+    gateway: 10.0.18.1
+    reserved:
+    - 10.0.18.2 - 10.0.18.9
+    static:
+    - 10.0.18.10 - 10.0.18.13
+    dns:
+    - 10.0.0.2
+    cloud_properties:
+      subnet: SUBNET_ID

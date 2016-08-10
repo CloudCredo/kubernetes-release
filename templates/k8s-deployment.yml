@@ -3,8 +3,8 @@ name: kubernetes
 director_uuid: (( merge ))
 
 releases:
- - name: kubernetes
-   version: latest
+- name: kubernetes
+  version: latest
 
 compilation:
   workers: 4

@@ -1,58 +1,58 @@
 jobs:
-  - name: master
-    templates:
-      - name: docker
-      - name: etcd
-      - name: flannel
-      - name: kubernetes-minion
-      - name: kubernetes-master
-    instances: 1
-    resource_pool: default
-    persistent_disk: 65536
+- name: master
+  templates:
+  - name: docker
+  - name: etcd
+  - name: flannel
+  - name: kubernetes-minion
+  - name: kubernetes-master
+  instances: 1
+  resource_pool: default
+  persistent_disk: 65536
+  networks:
+  - name: default
+    static_ips: (( merge ))
+  properties:
     networks:
-      - name: default
-        static_ips: (( merge ))
-    properties:
-      networks:
-        apps: default
-  - name: minion
-    templates:
-      - name: docker
-      - name: etcd
-      - name: flannel
-      - name: kubernetes-minion
-    instances: 2
-    resource_pool: default
-    persistent_disk: 65536
+      apps: default
+- name: minion
+  templates:
+  - name: docker
+  - name: etcd
+  - name: flannel
+  - name: kubernetes-minion
+  instances: 2
+  resource_pool: default
+  persistent_disk: 65536
+  networks:
+  - name: default
+    static_ips: (( merge ))
+  properties:
     networks:
-      - name: default
-        static_ips: (( merge ))
-    properties:
-      networks:
-        apps: default
+      apps: default
+- name: create-kubernetes-dns
+  lifecycle: errand
+  templates:
   - name: create-kubernetes-dns
-    lifecycle: errand
-    templates:
-      - name: create-kubernetes-dns
-    instances: 1
-    resource_pool: default
+  instances: 1
+  resource_pool: default
+  networks:
+  - name: default
+  properties:
     networks:
-      - name: default
-    properties:
-      networks:
-        apps: default
+      apps: default
+- name: guestbook-example
+  lifecycle: errand
+  templates:
   - name: guestbook-example
-    lifecycle: errand
-    templates:
-      - name: guestbook-example
-      - name: flannel
-    instances: 1
-    resource_pool: default
+  - name: flannel
+  instances: 1
+  resource_pool: default
+  networks:
+  - name: default
+  properties:
     networks:
-      - name: default
-    properties:
-      networks:
-        apps: default
+      apps: default
 
 properties:
   apiserver:
