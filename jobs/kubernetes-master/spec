@@ -2,10 +2,11 @@
 name: kubernetes-master
 
 packages:
-  - common
-  - kubernetes
+- common
+- kubernetes
 
 templates:
+  config/env.sh.erb: config/env.sh
   apiserver_ctl.erb: bin/apiserver_ctl
   controller-manager_ctl.erb: bin/controller-manager_ctl
   scheduler_ctl.erb: bin/scheduler_ctl
@@ -13,3 +14,11 @@ templates:
 properties:
   apiserver.machines:
     description: List of machines to schedule onto
+
+  cloud-provider:
+    description: K8s cloud provider
+    default: ""
+
+  master.cloud-credentials:
+    description: K8s cloud provider master credentials
+    default: {}

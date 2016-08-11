@@ -4,6 +4,7 @@ RUN_DIR=/var/vcap/sys/run/controller-manager
 PIDFILE=$RUN_DIR/controller-manager.pid
 
 source /var/vcap/packages/common/utils.sh
+source /var/vcap/jobs/kubernetes-master/config/env.sh
 
 case $1 in
 
@@ -16,6 +17,7 @@ case $1 in
 
     exec /var/vcap/packages/kubernetes/bin/kube-controller-manager \
 --master=127.0.0.1:8080 \
+--cloud-provider=<%= p('cloud-provider') %> \
 --logtostderr=true
     ;;
 

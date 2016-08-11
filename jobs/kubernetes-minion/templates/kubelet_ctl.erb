@@ -6,6 +6,7 @@ PIDFILE=${RUN_DIR}/kubelet.pid
 CERT_DIR=${RUN_DIR}/certs
 
 source /var/vcap/packages/common/utils.sh
+source /var/vcap/jobs/kubernetes-minion/config/env.sh
 
 case $1 in
 
@@ -27,6 +28,7 @@ case $1 in
 --logtostderr=true \
 --docker-endpoint=unix:///var/vcap/sys/run/docker/docker.sock \
 --root-dir=$ROOT_DIR \
+--cloud-provider=<%= p('cloud-provider') %> \
 --cluster_dns=10.0.0.10 \
 --cluster_domain=cluster.local
     ;;

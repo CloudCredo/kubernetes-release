@@ -62,5 +62,9 @@ properties:
     machines: (( merge ))
     require_ssl: false
     peer_require_ssl: false
+  cloud-provider: (( merge ))
+  cloud-config:
+    master: (( merge ))
+    minion: (( merge ))
 
 resource_pools: (( merge ))
