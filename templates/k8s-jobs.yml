@@ -63,7 +63,7 @@ properties:
     require_ssl: false
     peer_require_ssl: false
   cloud-provider: (( merge ))
-  cloud-config:
+  cloud-credentials:
     master: (( merge ))
     minion: (( merge ))
 

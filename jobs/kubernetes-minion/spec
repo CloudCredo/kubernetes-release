@@ -18,6 +18,6 @@ properties:
     description: K8s cloud provider
     default: ""
 
-  minion.cloud-credentials:
+  cloud-credentials.minion:
     description: K8s cloud provider minion credentials
     default: {}

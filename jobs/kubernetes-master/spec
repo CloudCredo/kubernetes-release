@@ -19,6 +19,6 @@ properties:
     description: K8s cloud provider
     default: ""
 
-  master.cloud-credentials:
+  cloud-credentials.master:
     description: K8s cloud provider master credentials
     default: {}
