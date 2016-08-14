@@ -58,13 +58,15 @@ properties:
   apiserver:
     host: (( static_ips(0) ))
     machines: (( merge ))
+    basic-auth: (( merge || [] ))
+    token-auth: (( merge || [] ))
   etcd:
     machines: (( merge ))
     require_ssl: false
     peer_require_ssl: false
-  cloud-provider: (( merge ))
+  cloud-provider: (( merge || ~ ))
   cloud-credentials:
-    master: (( merge ))
-    minion: (( merge ))
+    master: (( merge || {} ))
+    minion: (( merge || {} ))
 
 resource_pools: (( merge ))

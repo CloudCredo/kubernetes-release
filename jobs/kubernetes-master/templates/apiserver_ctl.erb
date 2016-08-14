@@ -8,6 +8,13 @@ CERT_DIR=${RUN_DIR}/certs
 source /var/vcap/packages/common/utils.sh
 source /var/vcap/jobs/kubernetes-master/config/env.sh
 
+<% if('apiserver.basic-auth').length > 0 %>
+BASIC_AUTH_FILE="--basic-auth-file=/var/vcap/jobs/kubernetes-master/config/basic-auth.csv"
+<% end %>
+<% if('apiserver.token-auth').length > 0 %>
+TOKEN_AUTH_FILE="--token-auth-file=/var/vcap/jobs/kubernetes-master/config/token-auth.csv"
+<% end %>
+
 case $1 in
 
   start)
@@ -24,6 +31,8 @@ case $1 in
 --service-cluster-ip-range="10.0.0.0/24" \
 --cert-dir=$CERT_DIR \
 --cloud-provider=<%= p('cloud-provider') %> \
+${BASIC_AUTH_FILE:-} \
+${TOKEN_AUTH_FILE:-} \
 --logtostderr=true
     ;;
 

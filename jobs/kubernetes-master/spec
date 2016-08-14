@@ -7,6 +7,8 @@ packages:
 
 templates:
   config/env.sh.erb: config/env.sh
+  config/token-auth.csv.erb: config/token-auth.csv
+  config/basic-auth.csv.erb: config/basic-auth.csv
   apiserver_ctl.erb: bin/apiserver_ctl
   controller-manager_ctl.erb: bin/controller-manager_ctl
   scheduler_ctl.erb: bin/scheduler_ctl
@@ -14,6 +16,14 @@ templates:
 properties:
   apiserver.machines:
     description: List of machines to schedule onto
+
+  apiserver.basic-auth:
+    description: List of basic auth credentials
+    default: []
+
+  apiserver.token-auth:
+    description: List of authentication tokens
+    default: []
 
   cloud-provider:
     description: K8s cloud provider
