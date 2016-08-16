@@ -37,6 +37,7 @@ jobs:
   - name: default
 
 properties:
+  <<: (( merge ))
   apiserver:
     host: (( jobs.master.networks.default.static_ips.[0] ))
     machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))

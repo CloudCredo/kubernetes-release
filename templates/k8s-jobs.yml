@@ -55,6 +55,7 @@ jobs:
       apps: default
 
 properties:
+  <<: (( merge ))
   apiserver:
     host: (( static_ips(0) ))
     machines: (( merge ))
