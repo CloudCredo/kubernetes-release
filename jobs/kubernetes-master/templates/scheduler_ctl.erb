@@ -18,6 +18,7 @@ case $1 in
     exec /var/vcap/packages/kubernetes/bin/kube-scheduler \
 --address=0.0.0.0 \
 --master=127.0.0.1:8080 \
+--leader-elect=true \
 --logtostderr=true
     ;;
 

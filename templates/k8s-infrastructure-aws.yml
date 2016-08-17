@@ -1,6 +1,6 @@
 meta:
   aws:
-    az: ~
+    az: (( merge ))
 
 networks: (( merge ))
 
@@ -16,20 +16,31 @@ resource_pools:
     name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
+    <<: (( merge ))
+    instance_type: m3.large
+    availability_zone: (( meta.aws.az ))
+
+- name: master
+  network: default
+  stemcell:
+    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    <<: (( merge ))
     instance_type: m3.large
     availability_zone: (( meta.aws.az ))
 
 jobs:
 - name: master
-  instances: 1
+  instances: 3
   networks:
   - name: default
-    static_ips: (( static_ips(0) ))
+    static_ips: (( static_ips(0, 1, 2) ))
 - name: minion
   instances: 2
   networks:
   - name: default
-    static_ips: (( static_ips(1, 2) ))
+    static_ips: (( static_ips(3, 4) ))
 - name: guestbook-example
   lifecycle: errand
   instances: 1
@@ -39,7 +50,8 @@ jobs:
 properties:
   <<: (( merge ))
   apiserver:
+    <<: (( merge ))
     host: (( jobs.master.networks.default.static_ips.[0] ))
-    machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
+    hosts: (( jobs.master.networks.default.static_ips ))
   etcd:
     machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))

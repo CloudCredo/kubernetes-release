@@ -11,8 +11,8 @@ templates:
   proxy_ctl.erb: bin/proxy_ctl
 
 properties:
-  apiserver.host:
-    description: IP address of the API
+  apiserver.hosts:
+    description: List of api server IPs
 
   cloud-provider:
     description: K8s cloud provider

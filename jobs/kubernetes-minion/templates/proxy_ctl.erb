@@ -15,7 +15,9 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    exec /var/vcap/packages/kubernetes/bin/kube-proxy --master=<%= p('apiserver.host') %>:8080 --logtostderr=true
+    exec /var/vcap/packages/kubernetes/bin/kube-proxy \
+--master=<%= p('apiserver.hosts')[0] %>:8080 \
+--logtostderr=true
     ;;
 
   stop)

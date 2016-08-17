@@ -18,6 +18,7 @@ case $1 in
     exec /var/vcap/packages/kubernetes/bin/kube-controller-manager \
 --master=127.0.0.1:8080 \
 --cloud-provider=<%= p('cloud-provider') %> \
+--leader-elect=true \
 --logtostderr=true
     ;;
 

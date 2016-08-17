@@ -23,7 +23,7 @@ case $1 in
 --address=<%= my_ip %> \
 --port=10250 \
 --hostname_override=<%= my_ip %> \
---api-servers=http://<%= p('apiserver.host') %>:8080 \
+--api-servers=<%= p('apiserver.hosts').map { |h| "#{h}:8080" }.join "," %> \
 --cert-dir=$CERT_DIR \
 --logtostderr=true \
 --docker-endpoint=unix:///var/vcap/sys/run/docker/docker.sock \

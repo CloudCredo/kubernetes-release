@@ -14,8 +14,8 @@ templates:
   scheduler_ctl.erb: bin/scheduler_ctl
 
 properties:
-  apiserver.machines:
-    description: List of machines to schedule onto
+  apiserver.hosts:
+    description: List of master hosts
 
   apiserver.basic-auth:
     description: List of basic auth credentials

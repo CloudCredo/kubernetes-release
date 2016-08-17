@@ -70,6 +70,6 @@ properties:
   <<: (( merge ))
   apiserver:
     host: (( jobs.master.networks.default.static_ips.[0] ))
-    machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
+    hosts: (( jobs.master.networks.default.static_ips ))
   etcd:
     machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))

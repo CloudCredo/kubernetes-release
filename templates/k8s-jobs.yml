@@ -1,13 +1,14 @@
 jobs:
 - name: master
+  <<: (( merge ))
   templates:
   - name: docker
   - name: etcd
   - name: flannel
   - name: kubernetes-minion
   - name: kubernetes-master
-  instances: 1
-  resource_pool: default
+  instances: 3
+  resource_pool: master
   persistent_disk: 65536
   networks:
   - name: default
@@ -16,12 +17,13 @@ jobs:
     networks:
       apps: default
 - name: minion
+  <<: (( merge ))
   templates:
   - name: docker
   - name: etcd
   - name: flannel
   - name: kubernetes-minion
-  instances: 2
+  instances: 3
   resource_pool: default
   persistent_disk: 65536
   networks:
@@ -56,18 +58,12 @@ jobs:
 
 properties:
   <<: (( merge ))
-  apiserver:
-    host: (( static_ips(0) ))
-    machines: (( merge ))
-    basic-auth: (( merge || [] ))
-    token-auth: (( merge || [] ))
+  apiserver: (( merge ))
   etcd:
     machines: (( merge ))
     require_ssl: false
     peer_require_ssl: false
   cloud-provider: (( merge || ~ ))
-  cloud-credentials:
-    master: (( merge || {} ))
-    minion: (( merge || {} ))
+  cloud-credentials: (( merge || {} ))
 
 resource_pools: (( merge ))
