@@ -27,3 +27,11 @@ kubernetes/kubernetes-server-linux-amd64.tar.gz:
   object_id: da802798-5cd2-4dee-bedd-ac28c233c5fa
   sha: 7b89205ccf43a53636b772747549394fa16a44dd
   size: 368371648
+aws-cli/awscli-bundle.zip:
+  object_id: cdbb9377-d90e-4983-835f-72799d91f362
+  sha: 95b38729dcb07acb692283de7013823e8aa75a9b
+  size: 6879872
+python/Python-2.7.8.tgz:
+  object_id: 3586ff5f-9ae0-4b6b-9b14-fd9ab85da701
+  sha: 511960dd78451a06c9df76509635aeec05b2051a
+  size: 14846119
