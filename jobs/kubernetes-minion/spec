@@ -4,11 +4,13 @@ name: kubernetes-minion
 packages:
 - common
 - kubernetes
+- aws-cli
 
 templates:
   config/env.sh.erb: config/env.sh
   kubelet_ctl.erb: bin/kubelet_ctl
   proxy_ctl.erb: bin/proxy_ctl
+  pre-start.erb: bin/pre-start
 
 properties:
   apiserver.hosts:
@@ -21,3 +23,6 @@ properties:
   cloud-credentials.minion:
     description: K8s cloud provider minion credentials
     default: {}
+
+  aws.cluster-tag:
+    description: K8s cluster tag (AWS only)
