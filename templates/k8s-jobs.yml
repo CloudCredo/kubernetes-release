@@ -63,6 +63,7 @@ properties:
     machines: (( merge ))
     require_ssl: false
     peer_require_ssl: false
+  certs: (( merge ))
   cloud-provider: (( merge || ~ ))
   cloud-credentials: (( merge || {} ))
 
