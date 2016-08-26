@@ -56,5 +56,6 @@ properties:
   consul:
     <<: (( merge ))
     join_host: (( jobs.master.networks.default.static_ips.[0] ))
+    join_hosts: (( jobs.master.networks.default.static_ips ))
   etcd:
     machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
