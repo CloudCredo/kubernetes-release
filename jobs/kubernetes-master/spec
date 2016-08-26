@@ -9,6 +9,9 @@ templates:
   config/env.sh.erb: config/env.sh
   config/token-auth.csv.erb: config/token-auth.csv
   config/basic-auth.csv.erb: config/basic-auth.csv
+  certs/ca.pem.erb: certs/ca.pem
+  certs/kubernetes.pem.erb: certs/kubernetes.pem
+  certs/kubernetes-key.pem.erb: certs/kubernetes-key.pem
   apiserver_ctl.erb: bin/apiserver_ctl
   controller-manager_ctl.erb: bin/controller-manager_ctl
   scheduler_ctl.erb: bin/scheduler_ctl
@@ -24,6 +27,15 @@ properties:
   apiserver.token-auth:
     description: List of authentication tokens
     default: []
+
+  certs.ca:
+    description: Kubernetes Certificate Authority certificate
+
+  certs.kubernetes:
+    description: Kubernetes TLS certificate
+
+  certs.kubernetes-key:
+    description: Kubernetes TLS private key
 
   cloud-provider:
     description: K8s cloud provider

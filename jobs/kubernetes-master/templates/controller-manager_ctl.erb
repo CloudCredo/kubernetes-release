@@ -1,6 +1,8 @@
 #!/bin/bash
 
+CERT_DIR=/var/vcap/jobs/kubernetes-master/certs
 RUN_DIR=/var/vcap/sys/run/controller-manager
+
 PIDFILE=$RUN_DIR/controller-manager.pid
 
 source /var/vcap/packages/common/utils.sh
@@ -19,7 +21,9 @@ case $1 in
 --master=127.0.0.1:8080 \
 --cloud-provider=<%= p('cloud-provider') %> \
 --leader-elect=true \
---logtostderr=true
+--logtostderr=true \
+--root-ca-file=${CERT_DIR}/ca.pem \
+--service-account-private-key-file=${CERT_DIR}/kubernetes-key.pem
     ;;
 
   stop)
