@@ -18,3 +18,12 @@ networks:
     - 10.0.0.2
     cloud_properties:
       subnet: SUBNET_ID
+properties:
+  consul:
+    default_recursor: 8.8.8.8
+    ssl_ca: -- SECRET --
+    ssl_cert:  -- SECRET --
+    ssl_key:  -- SECRET --
+    domain: kubernetes
+    encrypt: SECRETKEY
+
