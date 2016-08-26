@@ -1,4 +1,14 @@
 jobs:
+- name: consul
+  templates:
+  - {name: consul, release: consul}
+  instances: 3
+  resource_pool: default
+  persistent_disk: 65536
+  networks:
+  - name: default
+    static_ips: (( merge ))
+
 - name: master
   <<: (( merge ))
   templates:
@@ -7,7 +17,6 @@ jobs:
   - {name: flannel, release: kubernetes}
   - {name: kubernetes-minion, release: kubernetes}
   - {name: kubernetes-master, release: kubernetes}
-  - {name: consul, release: consul}
   instances: 3
   resource_pool: master
   persistent_disk: 65536
@@ -17,6 +26,7 @@ jobs:
   properties:
     networks:
       apps: default
+
 - name: minion
   <<: (( merge ))
   templates:
@@ -33,6 +43,7 @@ jobs:
   properties:
     networks:
       apps: default
+
 - name: create-kubernetes-dns
   lifecycle: errand
   templates:
