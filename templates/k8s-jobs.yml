@@ -1,12 +1,22 @@
 jobs:
+- name: consul
+  templates:
+  - {name: consul, release: consul}
+  instances: 3
+  resource_pool: default
+  persistent_disk: 65536
+  networks:
+  - name: default
+    static_ips: (( merge ))
+
 - name: master
   <<: (( merge ))
   templates:
-  - name: docker
-  - name: etcd
-  - name: flannel
-  - name: kubernetes-minion
-  - name: kubernetes-master
+  - {name: docker, release: kubernetes}
+  - {name: etcd, release: kubernetes}
+  - {name: flannel, release: kubernetes}
+  - {name: kubernetes-minion, release: kubernetes}
+  - {name: kubernetes-master, release: kubernetes}
   instances: 3
   resource_pool: master
   persistent_disk: 65536
@@ -16,13 +26,14 @@ jobs:
   properties:
     networks:
       apps: default
+
 - name: minion
   <<: (( merge ))
   templates:
-  - name: docker
-  - name: etcd
-  - name: flannel
-  - name: kubernetes-minion
+  - {name: docker, release: kubernetes}
+  - {name: etcd, release: kubernetes}
+  - {name: flannel, release: kubernetes}
+  - {name: kubernetes-minion, release: kubernetes}
   instances: 3
   resource_pool: default
   persistent_disk: 65536
@@ -32,10 +43,11 @@ jobs:
   properties:
     networks:
       apps: default
+
 - name: create-kubernetes-dns
   lifecycle: errand
   templates:
-  - name: create-kubernetes-dns
+  - {name: create-kubernetes-dns, release: kubernetes}
   instances: 1
   resource_pool: default
   networks:
@@ -46,8 +58,8 @@ jobs:
 - name: guestbook-example
   lifecycle: errand
   templates:
-  - name: guestbook-example
-  - name: flannel
+  - {name: guestbook-example, release: kubernetes}
+  - {name: flannel, release: kubernetes}
   instances: 1
   resource_pool: default
   networks:
@@ -59,6 +71,14 @@ jobs:
 properties:
   <<: (( merge ))
   apiserver: (( merge ))
+  consul:
+    <<: (( merge ))
+    default_recursor: (( merge ))
+    ssl_ca: (( merge ))
+    ssl_cert: (( merge ))
+    ssl_key: (( merge ))
+    domain: kubernetes
+    encrypt: (( merge ))
   etcd:
     machines: (( merge ))
     require_ssl: false

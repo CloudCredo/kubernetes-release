@@ -5,6 +5,8 @@ director_uuid: (( merge ))
 releases:
 - name: kubernetes
   version: latest
+- name: consul
+  version: latest
 
 compilation:
   workers: 4
