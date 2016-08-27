@@ -1,0 +1,10 @@
+{
+  "ca_file": "/etc/secrets/ca.crt",
+  "cert_file": "/etc/secrets/agent.crt",
+  "key_file": "/etc/secrets/agent.key",
+  "encrypt": "<%= p('consul.encrypt') %>",
+  "start_join": <%= p('consul.join_hosts') %>,
+  "retry_join": <%= p('consul.join_hosts') %>,
+  "verify_incoming": true,
+  "verify_outgoing": true
+}

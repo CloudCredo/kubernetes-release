@@ -9,6 +9,11 @@ templates:
   config/env.sh.erb: config/env.sh
   config/token-auth.csv.erb: config/token-auth.csv
   config/basic-auth.csv.erb: config/basic-auth.csv
+  manifests/kube2consul.yml.erb: manifests/kube2consul.yml
+  consul/config.json.erb: consul/config.json
+  consul/ca.crt.erb: consul/ca.crt
+  consul/agent.crt.erb: consul/agent.crt
+  consul/agent.key.erb: consul/agent.key
   certs/ca.pem.erb: certs/ca.pem
   certs/kubernetes.pem.erb: certs/kubernetes.pem
   certs/kubernetes-key.pem.erb: certs/kubernetes-key.pem
@@ -36,6 +41,21 @@ properties:
 
   certs.kubernetes-key:
     description: Kubernetes TLS private key
+
+  consul.encrypt:
+    description: Consul gossip encrpytion key
+
+  consul.join_hosts:
+    description: Consul server hosts
+
+  consul.ca_cert:
+    description: Consul CA certificate
+
+  consul.agent_cert:
+    description: Consul agent certificate
+
+  consul.agent_key:
+    description: Consul agent private key
 
   cloud-provider:
     description: K8s cloud provider
