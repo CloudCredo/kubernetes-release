@@ -16,6 +16,10 @@ properties:
   apiserver.hosts:
     description: List of api server IPs
 
+  manifest-dirs:
+    description: List of manifest dirs to run using kubelet
+    default: []
+
   cloud-provider:
     description: K8s cloud provider
     default: ""

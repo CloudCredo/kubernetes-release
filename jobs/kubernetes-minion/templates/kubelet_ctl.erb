@@ -2,8 +2,10 @@
 
 ROOT_DIR=/var/vcap/data/kubelet
 RUN_DIR=/var/vcap/sys/run/kubelet
-PIDFILE=${RUN_DIR}/kubelet.pid
+MANIFEST_DIR=${RUN_DIR}/manifests
 CERT_DIR=${RUN_DIR}/certs
+
+PIDFILE=${RUN_DIR}/kubelet.pid
 
 source /var/vcap/packages/common/utils.sh
 source /var/vcap/jobs/kubernetes-minion/config/env.sh
@@ -14,7 +16,12 @@ case $1 in
     pid_guard $PIDFILE "kubelet"
 
     mkdir -p $ROOT_DIR
+    mkdir -p $MANIFEST_DIR
     mkdir -p $CERT_DIR
+
+    <% p('manifest-dirs').each do |dir| %>
+    cp <%= dir %>/* ${MANIFEST_DIR}
+    <% end %>
 
     echo $$ > $PIDFILE
 
@@ -28,6 +35,7 @@ case $1 in
 --logtostderr=true \
 --docker-endpoint=unix:///var/vcap/sys/run/docker/docker.sock \
 --root-dir=$ROOT_DIR \
+--config=${MANIFEST_DIR} \
 --cloud-provider=<%= p('cloud-provider') %> \
 --cluster_dns=10.0.0.10 \
 --cluster_domain=cluster.local

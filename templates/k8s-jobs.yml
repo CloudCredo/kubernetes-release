@@ -26,6 +26,7 @@ jobs:
   properties:
     networks:
       apps: default
+    manifest-dirs: [/var/vcap/jobs/kubernetes-master/manifests]
 
 - name: minion
   <<: (( merge ))
