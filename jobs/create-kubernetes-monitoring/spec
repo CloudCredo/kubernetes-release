@@ -1,0 +1,18 @@
+---
+name: create-kubernetes-monitoring
+templates:
+  bin/run.erb: bin/run
+  manifests/grafana-service.yaml.erb: manifests/grafana-service.yaml
+  manifests/heapster-controller.yaml.erb: manifests/heapster-controller.yaml
+  manifests/heapster-service.yaml.erb: manifests/heapster-service.yaml
+  manifests/influxdb-grafana-controller.yaml.erb: manifests/influxdb-grafana-controller.yaml
+  manifests/influxdb-service.yaml.erb: manifests/influxdb-service.yaml
+packages:
+- kubernetes
+
+properties:
+  apiserver.host:
+    description: The host running the apiserver to connect to
+
+  nodes:
+    description: List of Kubernetes nodes

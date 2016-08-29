@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+
+PATH=$PATH:/var/vcap/packages/kubernetes/bin
+API_HOST=<%= p('apiserver.host') %>
+
+kubectl -s http://${API_HOST}:8080 apply -f /var/vcap/jobs/create-kubernetes-monitoring/manifests
+
+counter=60
+until [ $counter -le 0 ]; do
+if kubectl -s http://${API_HOST}:8080 get pod --namespace=kube-system | grep 'heapster-.* 4/4 ' && \
+    kubectl -s http://${API_HOST}:8080 get pod --namespace=kube-system | grep 'monitoring-influxdb-grafana-.* 2/2 '
+  then
+    exit 0
+  fi
+  sleep 5
+  let counter-=1
+done
+
+echo "Failed to start monitoring plugin"
+exit 1
