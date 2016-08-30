@@ -51,18 +51,30 @@ spec:
             # This variable is required to setup templates in Grafana.
             - name: INFLUXDB_SERVICE_URL
               value: http://monitoring-influxdb:8086
-              # The following env variables are required to make Grafana accessible via
-              # the kubernetes api-server proxy. On production clusters, we recommend
-              # removing these env variables, setup auth for grafana, and expose the grafana
-              # service using a LoadBalancer or a public IP.
-            - name: GF_AUTH_BASIC_ENABLED
-              value: "false"
-            - name: GF_AUTH_ANONYMOUS_ENABLED
+            <% if p('auth.github.enabled') %>
+            - name: GF_AUTH_GITHUB_ENABLED
               value: "true"
-            - name: GF_AUTH_ANONYMOUS_ORG_ROLE
-              value: Admin
-            - name: GF_SERVER_ROOT_URL
-              value: /api/v1/proxy/namespaces/kube-system/services/monitoring-grafana/
+            - name: GF_AUTH_GITHUB_ALLOW_SIGN_UP
+              value: "<%= p('auth.github.allow_sign_up') %>"
+            - name: GF_AUTH_GITHUB_CLIENT_ID
+              value: <%= p('auth.github.client_id') %>
+            - name: GF_AUTH_GITHUB_CLIENT_SECRET
+              value: <%= p('auth.github.client_secret') %>
+            - name: GF_AUTH_GITHUB_SCOPES
+              value: "user:email,read:org"
+            - name: GF_AUTH_GITHUB_AUTH_URL
+              value: <%= p('auth.github.auth_url') %>
+            - name: GF_AUTH_GITHUB_TOKEN_URL
+              value: <%= p('auth.github.token_url') %>
+            - name: GF_AUTH_GITHUB_API_URL
+              value: <%= p('auth.github.api_url') %>
+            - name: GF_AUTH_GITHUB_TEAM_IDS
+              value: <%= p('auth.github.team_ids').join(',') %>
+            - name: GF_AUTH_GITHUB_ALLOWED_DOMAINS
+              value: <%= p('auth.github.allowed_email_domains').join(' ') %>
+            - name: GF_AUTH_GITHUB_ALLOWED_ORGANIZATIONS
+              value: <%= p('auth.github.allowed_organizations').join(' ') %>
+            <% end %>
           volumeMounts:
           - name: grafana-persistent-storage
             mountPath: /var

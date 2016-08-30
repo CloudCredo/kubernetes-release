@@ -16,3 +16,41 @@ properties:
 
   nodes:
     description: List of Kubernetes nodes
+
+  auth.github.enabled:
+    description: "Permit users to authenticate via GitHub OAuth."
+    default: false
+
+  auth.github.allow_sign_up:
+    description: "Permit users to register via GitHub OAuth."
+    default: true
+
+  auth.github.client_id:
+    description: "GitHub OAuth client ID."
+
+  auth.github.client_secret:
+    description: "GitHub OAuth client secret."
+
+  auth.github.auth_url:
+    description: "GitHub OAuth authorization endpoint."
+    default: https://github.com/login/oauth/authorize
+
+  auth.github.token_url:
+    description: "GitHub OAuth access token endpoint."
+    default: https://github.com/login/oauth/access_token
+
+  auth.github.api_url:
+    description: "GitHub users API endpoint."
+    default: https://api.github.com/user
+
+  auth.github.allowed_email_domains:
+    description: "E-mail address domains to allow. If empty, all are allowed."
+    default: []
+
+  auth.github.allowed_organizations:
+    description: "GitHub organizations to allow. If empty, all are allowed."
+    default: []
+
+  auth.github.team_ids:
+    description: "GitHub team IDs to allow. If empty, all are allowed."
+    default: []
