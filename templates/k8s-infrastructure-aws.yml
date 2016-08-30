@@ -1,12 +1,10 @@
 meta:
   aws:
-    az: (( merge ))
-
-networks: (( merge ))
+    az: (( param "please define availability zone" ))
 
 compilation:
   cloud_properties:
-    availability_zone: (( meta.aws.az ))
+    availability_zone: (( grab meta.aws.az ))
     instance_type: m3.large
 
 resource_pools:
@@ -16,9 +14,8 @@ resource_pools:
     name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
-    <<: (( merge ))
     instance_type: m3.large
-    availability_zone: (( meta.aws.az ))
+    availability_zone: (( grab meta.aws.az ))
 
 - name: master
   network: default
@@ -26,9 +23,8 @@ resource_pools:
     name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
     version: latest
   cloud_properties:
-    <<: (( merge ))
     instance_type: m3.large
-    availability_zone: (( meta.aws.az ))
+    availability_zone: (( grab meta.aws.az ))
 
 jobs:
 - name: consul
@@ -56,15 +52,12 @@ jobs:
   - name: default
 
 properties:
-  <<: (( merge ))
-  nodes: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
+  nodes: (( grab jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
   apiserver:
-    <<: (( merge ))
-    host: (( jobs.master.networks.default.static_ips.[0] ))
-    hosts: (( jobs.master.networks.default.static_ips ))
+    host: (( grab jobs.master.networks.default.static_ips.[0] ))
+    hosts: (( grab jobs.master.networks.default.static_ips ))
   consul:
-    <<: (( merge ))
-    join_host: (( jobs.consul.networks.default.static_ips.[0] ))
-    join_hosts: (( jobs.consul.networks.default.static_ips ))
+    join_host: (( grab jobs.consul.networks.default.static_ips.[0] ))
+    join_hosts: (( grab jobs.consul.networks.default.static_ips ))
   etcd:
-    machines: (( jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
+    machines: (( grab jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))

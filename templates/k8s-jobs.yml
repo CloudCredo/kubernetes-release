@@ -7,10 +7,9 @@ jobs:
   persistent_disk: 65536
   networks:
   - name: default
-    static_ips: (( merge ))
+    static_ips: (( param "please define static ips" ))
 
 - name: master
-  <<: (( merge ))
   templates:
   - {name: docker, release: kubernetes}
   - {name: etcd, release: kubernetes}
@@ -22,14 +21,13 @@ jobs:
   persistent_disk: 65536
   networks:
   - name: default
-    static_ips: (( merge ))
+    static_ips: (( param "please define static ips" ))
   properties:
     networks:
       apps: default
     manifest-dirs: [/var/vcap/jobs/kubernetes-master/manifests]
 
 - name: minion
-  <<: (( merge ))
   templates:
   - {name: docker, release: kubernetes}
   - {name: etcd, release: kubernetes}
@@ -40,7 +38,7 @@ jobs:
   persistent_disk: 65536
   networks:
   - name: default
-    static_ips: (( merge ))
+    static_ips: (( param "please define static ips" ))
   properties:
     networks:
       apps: default
@@ -83,22 +81,12 @@ jobs:
       apps: default
 
 properties:
-  <<: (( merge ))
-  apiserver: (( merge ))
-  consul:
-    <<: (( merge ))
-    default_recursor: (( merge ))
-    ssl_ca: (( merge ))
-    ssl_cert: (( merge ))
-    ssl_key: (( merge ))
-    domain: kubernetes
-    encrypt: (( merge ))
+  apiserver:
+    hosts: (( param "please define apiserver hosts" ))
   etcd:
-    machines: (( merge ))
+    machines: (( param "please define etcd machines" ))
     require_ssl: false
     peer_require_ssl: false
-  certs: (( merge ))
-  cloud-provider: (( merge || ~ ))
-  cloud-credentials: (( merge || {} ))
-
-resource_pools: (( merge ))
+  certs: {}
+  cloud-provider: ~
+  cloud-credentials: {}
