@@ -2,7 +2,7 @@
 
 # Adapted from https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/02-certificate-authority.md
 
-ADDRS=$1
+ADDRS=$@
 if [ -z "${ADDRS}" ]; then
   echo 'Usage: ./generate-certificates.sh $(prips 10.9.30.128/25)'
   exit 1
