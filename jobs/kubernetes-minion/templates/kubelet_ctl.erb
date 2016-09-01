@@ -28,6 +28,7 @@ case $1 in
     <% my_ip = spec.networks.to_h.values.first.ip %>
     exec /var/vcap/packages/kubernetes/bin/kubelet \
 --address=<%= my_ip %> \
+--allow-privileged=true \
 --port=10250 \
 --hostname_override=<%= my_ip %> \
 --api-servers=<%= p('apiserver.hosts').map { |h| "#{h}:8080" }.join "," %> \
