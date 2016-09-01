@@ -57,7 +57,7 @@ spec:
           command:
             - /heapster
             - --source=kubernetes.summary_api:''
-            - --sink=influxdb:http://monitoring-influxdb:8086
+            - --sink=<%= heapster.sink %>
         - image: gcr.io/google_containers/heapster:v1.2.0-beta.1
           name: eventer
           resources:
