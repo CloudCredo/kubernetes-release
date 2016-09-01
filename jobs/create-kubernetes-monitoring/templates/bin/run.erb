@@ -9,8 +9,7 @@ kubectl -s http://${API_HOST}:8080 apply -f /var/vcap/jobs/create-kubernetes-mon
 
 counter=60
 until [ $counter -le 0 ]; do
-if kubectl -s http://${API_HOST}:8080 get pod --namespace=kube-system | grep 'heapster-.* 4/4 '
-  then
+  if kubectl -s http://${API_HOST}:8080 get pod --namespace=kube-system | grep 'heapster-.* 4/4 '; then
     exit 0
   fi
   sleep 5
