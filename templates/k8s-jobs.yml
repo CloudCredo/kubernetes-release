@@ -54,6 +54,19 @@ jobs:
   properties:
     networks:
       apps: default
+
+- name: create-kubernetes-monitoring
+  lifecycle: errand
+  templates:
+  - {name: create-kubernetes-monitoring, release: kubernetes}
+  instances: 1
+  resource_pool: default
+  networks:
+  - name: default
+  properties:
+    networks:
+      apps: default
+
 - name: guestbook-example
   lifecycle: errand
   templates:

@@ -1,0 +1,21 @@
+---
+name: create-kubernetes-monitoring
+templates:
+  bin/run.erb: bin/run
+  manifests/heapster-controller.yaml.erb: manifests/heapster-controller.yaml
+  manifests/heapster-service.yaml.erb: manifests/heapster-service.yaml
+packages:
+- kubernetes
+
+properties:
+  apiserver.host:
+    description: The host running the apiserver to connect to
+
+  nodes:
+    description: List of Kubernetes nodes
+
+  heapster.sink:
+    description: Where heapster sends metric data
+
+  eventer.sink:
+    description: Where heapster sends event data

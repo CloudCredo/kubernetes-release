@@ -52,6 +52,7 @@ jobs:
   - name: default
 
 properties:
+  nodes: (( grab jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
   apiserver:
     host: (( grab jobs.master.networks.default.static_ips.[0] ))
     hosts: (( grab jobs.master.networks.default.static_ips ))
