@@ -18,6 +18,15 @@ networks:
     - 10.0.0.2
     cloud_properties:
       subnet: SUBNET_ID
+
+resource_pools:
+- name: master
+  cloud_properties:
+    iam_instance_profile: IAM_ROLE_MASTER
+- name: minion
+  cloud_properties:
+    iam_instance_profile: IAM_ROLE_MINION
+
 properties:
   consul:
     default_recursor: 8.8.8.8
@@ -26,4 +35,3 @@ properties:
     ssl_key:  -- SECRET --
     domain: kubernetes
     encrypt: SECRETKEY
-
