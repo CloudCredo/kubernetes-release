@@ -25,6 +25,17 @@ resource_pools:
   cloud_properties:
     instance_type: m3.large
     availability_zone: (( grab meta.aws.az ))
+    iam_instance_profile: (( param "specify master instance profile" ))
+
+- name: minion
+  network: default
+  stemcell:
+    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    instance_type: m3.large
+    availability_zone: (( grab meta.aws.az ))
+    iam_instance_profile: (( param "specify minion instance profile" ))
 
 jobs:
 - name: consul

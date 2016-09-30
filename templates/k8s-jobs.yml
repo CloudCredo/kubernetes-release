@@ -34,7 +34,7 @@ jobs:
   - {name: flannel, release: kubernetes}
   - {name: kubernetes-minion, release: kubernetes}
   instances: 3
-  resource_pool: default
+  resource_pool: minion
   persistent_disk: 65536
   networks:
   - name: default
