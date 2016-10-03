@@ -25,12 +25,12 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    <% my_ip = spec.networks.to_h.values.first.ip %>
+    <% addr = spec.networks.to_h.values.first.ip %>
     exec /var/vcap/packages/kubernetes/bin/kubelet \
---address=<%= my_ip %> \
+--address=<%= addr %> \
 --allow-privileged=true \
 --port=10250 \
---hostname_override=<%= my_ip %> \
+--hostname_override=<%= addr %> \
 --api-servers=<%= p('apiserver.hosts').map { |h| "#{h}:8080" }.join "," %> \
 --cert-dir=$CERT_DIR \
 --logtostderr=true \
