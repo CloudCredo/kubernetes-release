@@ -25,7 +25,7 @@ NODE_HOST=<%= addr %>
 QUERY="{range .items[?(.status.addresses[0].address==\"${NODE_HOST}\")]} {.metadata.name} {end}"
 NODE=$(kubectl -s http://${API_HOST}:8080 get nodes -o jsonpath="${QUERY}")
 
-kubectl -s http://${API_HOST}:8080 drain ${NODE} --force
+for i in {1..5}; do kubectl -s http://${API_HOST}:8080 drain ${NODE} --force && break || sleep 5; done
 
 echo 0 >&3
 exit 0
