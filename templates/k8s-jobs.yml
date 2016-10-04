@@ -85,6 +85,7 @@ jobs:
 
 properties:
   apiserver:
+    ip: (( param "specify apiserver host" ))
     hosts: (( param "specify apiserver hosts" ))
   etcd:
     machines: (( param "specify etcd machines" ))

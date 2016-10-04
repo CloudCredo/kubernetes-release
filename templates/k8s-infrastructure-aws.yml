@@ -71,10 +71,11 @@ jobs:
 properties:
   nodes: (( grab jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
   apiserver:
+    ip: (( grab jobs.etcd.networks.default.static_ips.[0] ))
     host: (( grab jobs.master.networks.default.static_ips.[0] ))
     hosts: (( grab jobs.master.networks.default.static_ips ))
   consul:
     join_host: (( grab jobs.consul.networks.default.static_ips.[0] ))
     join_hosts: (( grab jobs.consul.networks.default.static_ips ))
   etcd:
-    machines: (( grab jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
+    machines: (( grab jobs.etcd.networks.default.static_ips ))
