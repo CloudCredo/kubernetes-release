@@ -22,6 +22,9 @@ templates:
   scheduler_ctl.erb: bin/scheduler_ctl
 
 properties:
+  etcd.machines:
+    description: List of etcd hosts
+
   apiserver.hosts:
     description: List of master hosts
 

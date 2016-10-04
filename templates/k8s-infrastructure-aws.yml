@@ -1,6 +1,6 @@
 meta:
   aws:
-    az: (( param "please define availability zone" ))
+    az: (( param "specify availability zone" ))
 
 compilation:
   cloud_properties:
@@ -42,19 +42,25 @@ jobs:
   instances: 3
   networks:
   - name: default
-    static_ips: (( static_ips(5, 6, 7) ))
+    static_ips: (( static_ips(0, 1, 2) ))
+
+- name: etcd
+  instances: 3
+  networks:
+  - name: default
+    static_ips: (( static_ips(3, 4, 5) ))
 
 - name: master
   instances: 3
   networks:
   - name: default
-    static_ips: (( static_ips(0, 1, 2) ))
+    static_ips: (( static_ips(6, 7, 8) ))
 
 - name: minion
   instances: 2
   networks:
   - name: default
-    static_ips: (( static_ips(3, 4) ))
+    static_ips: (( static_ips(9, 10) ))
 
 - name: guestbook-example
   lifecycle: errand
