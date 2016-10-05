@@ -31,7 +31,7 @@ case $1 in
 --apiserver-count=<%= p('apiserver.hosts').length %> \
 --cert-dir=$CERT_DIR \
 --cloud-provider=<%= p('cloud-provider') %> \
---etcd-servers=http://127.0.0.1:4001 \
+--etcd-servers=<%= p('etcd.machines').map { |h| "http://#{h}:4001" }.join ',' %> \
 --insecure-bind-address=0.0.0.0 \
 --insecure-port=8080 \
 --logtostderr=true \

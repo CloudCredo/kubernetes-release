@@ -7,12 +7,21 @@ jobs:
   persistent_disk: 65536
   networks:
   - name: default
-    static_ips: (( param "please define static ips" ))
+    static_ips: (( param "specify static ips" ))
+
+- name: etcd
+  templates:
+  - {name: etcd, release: kubernetes}
+  instances: 3
+  resource_pool: default
+  persistent_disk: 65536
+  networks:
+  - name: default
+    static_ips: (( param "specify static ips" ))
 
 - name: master
   templates:
   - {name: docker, release: kubernetes}
-  - {name: etcd, release: kubernetes}
   - {name: flannel, release: kubernetes}
   - {name: kubernetes-minion, release: kubernetes}
   - {name: kubernetes-master, release: kubernetes}
@@ -21,16 +30,13 @@ jobs:
   persistent_disk: 65536
   networks:
   - name: default
-    static_ips: (( param "please define static ips" ))
+    static_ips: (( param "specify static ips" ))
   properties:
-    networks:
-      apps: default
     manifest-dirs: [/var/vcap/jobs/kubernetes-master/manifests]
 
 - name: minion
   templates:
   - {name: docker, release: kubernetes}
-  - {name: etcd, release: kubernetes}
   - {name: flannel, release: kubernetes}
   - {name: kubernetes-minion, release: kubernetes}
   instances: 3
@@ -38,10 +44,7 @@ jobs:
   persistent_disk: 65536
   networks:
   - name: default
-    static_ips: (( param "please define static ips" ))
-  properties:
-    networks:
-      apps: default
+    static_ips: (( param "specify static ips" ))
 
 - name: create-kubernetes-dns
   lifecycle: errand
@@ -51,9 +54,6 @@ jobs:
   resource_pool: default
   networks:
   - name: default
-  properties:
-    networks:
-      apps: default
 
 - name: create-kubernetes-monitoring
   lifecycle: errand
@@ -63,9 +63,6 @@ jobs:
   resource_pool: default
   networks:
   - name: default
-  properties:
-    networks:
-      apps: default
 
 - name: apply-kubernetes-manifests
   lifecycle: errand
@@ -75,9 +72,6 @@ jobs:
   resource_pool: default
   networks:
   - name: default
-  properties:
-    networks:
-      apps: default
 
 - name: guestbook-example
   lifecycle: errand
@@ -88,15 +82,13 @@ jobs:
   resource_pool: default
   networks:
   - name: default
-  properties:
-    networks:
-      apps: default
 
 properties:
   apiserver:
-    hosts: (( param "please define apiserver hosts" ))
+    ip: (( param "specify apiserver host" ))
+    hosts: (( param "specify apiserver hosts" ))
   etcd:
-    machines: (( param "please define etcd machines" ))
+    machines: (( param "specify etcd machines" ))
     require_ssl: false
     peer_require_ssl: false
   certs: {}

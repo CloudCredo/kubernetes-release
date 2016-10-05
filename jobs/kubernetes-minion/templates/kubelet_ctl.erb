@@ -31,7 +31,7 @@ case $1 in
 --allow-privileged=true \
 --port=10250 \
 --hostname_override=<%= addr %> \
---api-servers=<%= p('apiserver.hosts').map { |h| "#{h}:8080" }.join "," %> \
+--api-servers=<%= p('apiserver.hosts').map { |h| "http://#{h}:8080" }.join ',' %> \
 --cert-dir=$CERT_DIR \
 --logtostderr=true \
 --docker-endpoint=unix:///var/vcap/sys/run/docker/docker.sock \
