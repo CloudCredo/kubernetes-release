@@ -9,9 +9,12 @@ API_HOST=<%= p('apiserver.host') %>
 manifest=$(mktemp manifest-XXXXXX)
 
 cat << 'EOF' > ${manifest}
-<%= manifest %>
+<%= manifest['content'] %>
 EOF
 
+<% if manifest['recreate'] %>
 kubectl -s http://${API_HOST}:8080 delete -f ${manifest}
+<% end %>
+
 kubectl -s http://${API_HOST}:8080 apply -f ${manifest}
 <% end %>
