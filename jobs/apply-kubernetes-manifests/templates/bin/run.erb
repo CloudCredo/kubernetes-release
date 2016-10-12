@@ -6,7 +6,12 @@ PATH=$PATH:/var/vcap/packages/kubernetes/bin
 API_HOST=<%= p('apiserver.host') %>
 
 <% p('manifests').each do |manifest| %>
-cat << 'EOF' | kubectl -s http://${API_HOST}:8080 apply -f -
+manifest=$(mktemp manifest-XXXXXX)
+
+cat << 'EOF' > ${manifest}
 <%= manifest %>
 EOF
+
+kubectl -s http://${API_HOST}:8080 delete -f ${manifest}
+kubectl -s http://${API_HOST}:8080 apply -f ${manifest}
 <% end %>
