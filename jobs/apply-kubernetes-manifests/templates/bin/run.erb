@@ -6,7 +6,7 @@ PATH=$PATH:/var/vcap/packages/kubernetes/bin
 API_HOST=<%= p('apiserver.host') %>
 
 <% p('manifests').each do |manifest| %>
-cat << EOF | kubectl -s http://${API_HOST}:8080 apply -f -
+cat << 'EOF' | kubectl -s http://${API_HOST}:8080 apply -f -
 <%= manifest %>
 EOF
 <% end %>
