@@ -13,7 +13,7 @@ cat << 'EOF' > ${manifest}
 EOF
 
 <% if manifest['recreate'] %>
-kubectl -s http://${API_HOST}:8080 delete -f ${manifest}
+kubectl -s http://${API_HOST}:8080 delete --ignore-not-found -f ${manifest}
 <% end %>
 
 kubectl -s http://${API_HOST}:8080 apply -f ${manifest}
