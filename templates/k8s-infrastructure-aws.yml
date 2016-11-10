@@ -17,6 +17,16 @@ resource_pools:
     instance_type: m3.large
     availability_zone: (( grab meta.aws.az ))
 
+- name: etcd
+  network: default
+  stemcell:
+    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    instance_type: t2.small
+    availability_zone: (( grab meta.aws.az ))
+    iam_instance_profile: (( param "specify etcd instance profile" ))
+
 - name: master
   network: default
   stemcell:

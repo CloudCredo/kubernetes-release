@@ -13,7 +13,7 @@ jobs:
   templates:
   - {name: etcd, release: kubernetes}
   instances: 3
-  resource_pool: default
+  resource_pool: etcd
   persistent_disk: 65536
   networks:
   - name: default
