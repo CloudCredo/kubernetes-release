@@ -24,9 +24,9 @@ golang/go1.6.3.linux-amd64.tar.gz:
   sha: 5e916ba4dd8c2fc43beafca4c08b334c4d0686f3
   size: 84856920
 kubernetes/kubernetes-server-linux-amd64.tar.gz:
-  object_id: 2c76e2a0-969d-4dd2-989e-346ed68b7ed1
-  sha: 562a729463033bd0569cd1d0ae03c4c25c82e946
-  size: 352507010
+  object_id: 50e790ad-888b-4b27-9401-7636197d83f7
+  sha: 5df19e3745bbc8c7d1a5bf6d61d9e1b0d189db64
+  size: 351485887
 aws-cli/awscli-bundle.zip:
   object_id: cdbb9377-d90e-4983-835f-72799d91f362
   sha: 95b38729dcb07acb692283de7013823e8aa75a9b
