@@ -60,6 +60,12 @@ properties:
   consul.agent_key:
     description: Consul agent private key
 
+  kube2consul.args:
+    description: "Hash of kube2consul arguments"
+    example:
+      kube-sync: 600
+    default: {}
+
   cloud-provider:
     description: K8s cloud provider
     default: ""

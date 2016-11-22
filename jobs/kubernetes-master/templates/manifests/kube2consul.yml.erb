@@ -32,6 +32,9 @@ spec:
     - /kube2consul
     - -consul-agent=http://127.0.0.1:8500
     - -kube_master_url=http://127.0.0.1:8080
+<% p("kube2consul.args").each do |key, value| %>
+    - -<%= key %>=<% value %>
+<% end %>
   volumes:
   - name: secrets
     hostPath:
