@@ -19,10 +19,6 @@ flannel/flannel-0.5.5-linux-amd64.tar.gz:
   object_id: 3477eb5a-0906-45a7-af39-68afccd9f4c4
   sha: fab60fdf23b029fa39badc008fe951bce5046caa
   size: 3489977
-golang/go1.6.3.linux-amd64.tar.gz:
-  object_id: 25997ee5-8ad0-4fab-b30b-6c116a38b779
-  sha: 5e916ba4dd8c2fc43beafca4c08b334c4d0686f3
-  size: 84856920
 kubernetes/kubernetes-server-linux-amd64.tar.gz:
   object_id: 50e790ad-888b-4b27-9401-7636197d83f7
   sha: 5df19e3745bbc8c7d1a5bf6d61d9e1b0d189db64
@@ -35,3 +31,11 @@ python/Python-2.7.8.tgz:
   object_id: 3586ff5f-9ae0-4b6b-9b14-fd9ab85da701
   sha: 511960dd78451a06c9df76509635aeec05b2051a
   size: 14846119
+etcd/etcd-v2.1.1-linux-amd64.tar.gz:
+  object_id: 5484981b-7806-470e-a6d6-65559343180d
+  sha: d90a29e051f8dea2f5bb4200610ccbcec45497d7
+  size: 5608238
+golang/go1.7.3.linux-amd64.tar.gz:
+  object_id: 33f3095f-14b5-455e-9e21-1b6361590de2
+  sha: ead40e884ad4d6512bcf7b3c7420dd7fa4a96140
+  size: 82565628
