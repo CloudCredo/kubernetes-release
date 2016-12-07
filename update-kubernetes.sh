@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 set -x
@@ -15,5 +15,6 @@ pushd tmp
   tar xf kubernetes.tar.gz
 popd
 
+echo -e 'y\n' | ./tmp/kubernetes/cluster/get-kube-binaries.sh
 bosh add blob tmp/kubernetes/server/kubernetes-server-linux-amd64.tar.gz kubernetes/
 bosh -n upload blobs
