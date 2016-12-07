@@ -1,5 +1,5 @@
 ---
 name: kubernetes
-dependencies: {}
+dependencies: []
 files:
 - kubernetes/kubernetes-server-linux-amd64.tar.gz
