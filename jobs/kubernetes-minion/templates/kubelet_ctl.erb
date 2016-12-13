@@ -4,6 +4,8 @@ ROOT_DIR=/var/vcap/data/kubelet
 RUN_DIR=/var/vcap/sys/run/kubelet
 MANIFEST_DIR=${RUN_DIR}/manifests
 CERT_DIR=${RUN_DIR}/certs
+DOCKER_BOSH_RELEASE_PID=/var/vcap/sys/run/docker/docker.pid
+KUBERNETES_DOCKER_PID=/var/run/docker.pid
 
 PIDFILE=${RUN_DIR}/kubelet.pid
 
@@ -18,6 +20,15 @@ case $1 in
     mkdir -p $ROOT_DIR
     mkdir -p $MANIFEST_DIR
     mkdir -p $CERT_DIR
+
+    if [ -f "${DOCKER_BOSH_RELEASE_PID}" ]; then
+      ln -sf ${DOCKER_BOSH_RELEASE_PID} ${KUBERNETES_DOCKER_PID}
+    else
+      echo "Unable to find the Docker daemon pid from the BOSH release"
+      echo "This pid is required for K8S container manager"
+      echo "Path: ${DOCKER_BOSH_RELEASE_PID}"
+      exit 1
+    fi
 
     <% p('manifest-dirs').each do |dir| %>
     cp <%= dir %>/* ${MANIFEST_DIR}
