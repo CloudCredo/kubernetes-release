@@ -20,9 +20,9 @@ flannel/flannel-0.5.5-linux-amd64.tar.gz:
   sha: fab60fdf23b029fa39badc008fe951bce5046caa
   size: 3489977
 kubernetes/kubernetes-server-linux-amd64.tar.gz:
-  object_id: 2486ed07-7cd1-40a1-a1de-df1bbd2d7279
-  sha: 816a29b0e21ed1c47c9c4195fafba8d0863e0766
-  size: 313301619
+  object_id: 8c0eef2f-cea7-48c6-b997-4e4a255225be
+  sha: 5184ec6abd293c3f9bf5bc6ff22fc47fc261a8aa
+  size: 313325493
 aws-cli/awscli-bundle.zip:
   object_id: cdbb9377-d90e-4983-835f-72799d91f362
   sha: 95b38729dcb07acb692283de7013823e8aa75a9b
