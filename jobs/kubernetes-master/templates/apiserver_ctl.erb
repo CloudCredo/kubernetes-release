@@ -28,6 +28,7 @@ case $1 in
     exec /var/vcap/packages/kubernetes/bin/kube-apiserver \
 --admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota \
 --allow-privileged=true \
+--anonymous-auth=false \
 --apiserver-count=<%= p('apiserver.hosts').length %> \
 --cert-dir=$CERT_DIR \
 --cloud-provider=<%= p('cloud-provider') %> \
