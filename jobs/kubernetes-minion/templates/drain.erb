@@ -22,12 +22,11 @@ API_HOST=<%= p('apiserver.hosts').select {|ip| ip != addr}.first %>
 NODE_HOST=<%= addr %>
 
 # only attempt drain if we can communicate with the api host
-if /bin/nc -vz $API_HOST 8080; then 
-	# TODO: Query against kubernetes.io/hostname after https://github.com/kubernetes/kubernetes/issues/31984 is resolved
-	QUERY="{range .items[?(.status.addresses[0].address==\"${NODE_HOST}\")]} {.metadata.name} {end}"
-	NODE=$(kubectl -s http://${API_HOST}:8080 get nodes -o jsonpath="${QUERY}")
+if /bin/nc -vz $API_HOST 8080; then
+  QUERY="{range .items[?(.metadata.labels.kubernetes\.io/hostname==\"${NODE_HOST}\")]} {.metadata.name} {end}"
+  NODE=$(kubectl -s http://${API_HOST}:8080 get nodes -o jsonpath="${QUERY}")
 
-	for i in {1..5}; do kubectl -s http://${API_HOST}:8080 drain ${NODE} --force --ignore-daemonsets && break || sleep 5; done
+  for i in {1..5}; do kubectl -s http://${API_HOST}:8080 drain ${NODE} --force --ignore-daemonsets && break || sleep 5; done
 fi
 
 echo 0 >&3
