@@ -22,6 +22,9 @@ properties:
     description: List of manifest dirs to run using kubelet
     default: []
 
+  schedulable:
+    description: Allow scheduling pods on host
+
   cloud-provider:
     description: K8s cloud provider
     default: ""
