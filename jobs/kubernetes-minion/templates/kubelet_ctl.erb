@@ -50,7 +50,8 @@ case $1 in
 --config=${MANIFEST_DIR} \
 --cloud-provider=<%= p('cloud-provider') %> \
 --cluster_dns=10.0.0.10 \
---cluster_domain=cluster.local
+--cluster_domain=cluster.local \
+<% if_p('schedulable') do |schedulable| %>--register-schedulable=<%= schedulable.to_s %><% end %>
     ;;
 
   stop)

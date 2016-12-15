@@ -33,6 +33,7 @@ jobs:
     static_ips: (( param "specify static ips" ))
   properties:
     manifest-dirs: [/var/vcap/jobs/kubernetes-master/manifests]
+    schedulable: false
 
 - name: minion
   templates:
@@ -45,6 +46,8 @@ jobs:
   networks:
   - name: default
     static_ips: (( param "specify static ips" ))
+  properties:
+    schedulable: true
 
 - name: create-kubernetes-dns
   lifecycle: errand
