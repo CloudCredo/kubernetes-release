@@ -5,11 +5,11 @@
   metrics_memory_per_node = 4
   metrics_cpu_per_node = 0.5
   eventer_memory_per_node = 500
-  num_nodes = p('nodes').length
+  num_nodes = p("nodes").length
   nanny_memory = "90Mi"
   nanny_memory_per_node = 200
   if num_nodes >= 0
-    nanny_memory = (90 * 1024 + num_nodes * nanny_memory_per_node)|string + "Ki"
+    nanny_memory = "#{90 * 1024 + num_nodes * nanny_memory_per_node}Ki"
   end
 %>
 
