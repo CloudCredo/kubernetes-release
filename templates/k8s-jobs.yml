@@ -4,7 +4,7 @@ jobs:
   - {name: consul, release: consul}
   instances: 3
   resource_pool: default
-  persistent_disk: 65536
+  persistent_disk: 15000
   networks:
   - name: default
     static_ips: (( param "specify static ips" ))
@@ -14,7 +14,7 @@ jobs:
   - {name: etcd, release: kubernetes}
   instances: 3
   resource_pool: etcd
-  persistent_disk: 65536
+  persistent_disk: 15000
   networks:
   - name: default
     static_ips: (( param "specify static ips" ))
@@ -27,7 +27,7 @@ jobs:
   - {name: kubernetes-master, release: kubernetes}
   instances: 3
   resource_pool: master
-  persistent_disk: 65536
+  persistent_disk: 15000
   networks:
   - name: default
     static_ips: (( param "specify static ips" ))
@@ -42,7 +42,7 @@ jobs:
   - {name: kubernetes-minion, release: kubernetes}
   instances: 3
   resource_pool: minion
-  persistent_disk: 65536
+  persistent_disk: 15000
   networks:
   - name: default
     static_ips: (( param "specify static ips" ))
