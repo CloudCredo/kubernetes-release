@@ -54,7 +54,7 @@ jobs:
   templates:
   - {name: create-kubernetes-dns, release: kubernetes}
   instances: 1
-  resource_pool: default
+  resource_pool: errand
   networks:
   - name: default
 
@@ -63,7 +63,7 @@ jobs:
   templates:
   - {name: create-kubernetes-monitoring, release: kubernetes}
   instances: 1
-  resource_pool: default
+  resource_pool: errand
   networks:
   - name: default
 
@@ -72,7 +72,7 @@ jobs:
   templates:
   - {name: apply-kubernetes-manifests, release: kubernetes}
   instances: 1
-  resource_pool: default
+  resource_pool: errand
   networks:
   - name: default
 
@@ -82,7 +82,7 @@ jobs:
   - {name: guestbook-example, release: kubernetes}
   - {name: flannel, release: kubernetes}
   instances: 1
-  resource_pool: default
+  resource_pool: errand
   networks:
   - name: default
 
