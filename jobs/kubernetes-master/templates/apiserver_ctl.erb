@@ -26,7 +26,7 @@ case $1 in
     echo $$ > $PIDFILE
 
     exec /var/vcap/packages/kubernetes/bin/kube-apiserver \
-<% if_p('apiserver.event-ttl') do %>--event-ttl=<%= p('apiserver.event-ttl') %> \<% end %>
+<% if_p('apiserver.event-ttl') do %>--event-ttl=<%= p('apiserver.event-ttl') %><% end %> \
 --admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota \
 --allow-privileged=true \
 --anonymous-auth=false \
