@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Drain and cordon node
+
+set -e
+set -x
+
+PATH=$PATH:/var/vcap/packages/kubernetes/bin
+
+LOG_DIR=/var/vcap/sys/log/kubernetes-minion
+LOG_FILE=${LOG_DIR}/drain.log
+
+mkdir -p ${LOG_DIR}
+
+exec 3>&1
+exec 1>> ${LOG_FILE}
+exec 2>> ${LOG_FILE}
+
+# Choose first non-self address; using self fails if etcd drain script runs first
+<% addr = spec.networks.to_h.values.first.ip %>
+API_HOST=<%= p('apiserver.hosts').select {|ip| ip != addr}.first %>
+NODE_HOST=<%= addr %>
+
+# only attempt drain if we can communicate with the api host
+if /bin/nc -vz $API_HOST 8080; then
+  QUERY="{range .items[?(.metadata.labels.kubernetes\.io/hostname==\"${NODE_HOST}\")]} {.metadata.name} {end}"
+  NODE=$(kubectl -s http://${API_HOST}:8080 get nodes -o jsonpath="${QUERY}")
+
+  for i in {1..5}; do kubectl -s http://${API_HOST}:8080 drain ${NODE} --force --ignore-daemonsets && break || sleep 5; done
+fi
+
+echo 0 >&3
+exit 0

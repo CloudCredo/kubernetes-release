@@ -1,66 +1,99 @@
 jobs:
-  - name: master
-    templates:
-      - name: docker
-      - name: etcd
-      - name: flannel
-      - name: kubernetes-minion
-      - name: kubernetes-master
-    instances: 1
-    resource_pool: default
-    persistent_disk: 65536
-    networks:
-      - name: default
-        static_ips: (( merge ))
-    properties:
-      networks:
-        apps: default
-  - name: minion
-    templates:
-      - name: docker
-      - name: etcd
-      - name: flannel
-      - name: kubernetes-minion
-    instances: 2
-    resource_pool: default
-    persistent_disk: 65536
-    networks:
-      - name: default
-        static_ips: (( merge ))
-    properties:
-      networks:
-        apps: default
-  - name: create-kubernetes-dns
-    lifecycle: errand
-    templates:
-      - name: create-kubernetes-dns
-    instances: 1
-    resource_pool: default
-    networks:
-      - name: default
-    properties:
-      networks:
-        apps: default
-  - name: guestbook-example
-    lifecycle: errand
-    templates:
-      - name: guestbook-example
-      - name: flannel
-    instances: 1
-    resource_pool: default
-    networks:
-      - name: default
-    properties:
-      networks:
-        apps: default
+- name: consul
+  templates:
+  - {name: consul, release: consul}
+  instances: 3
+  resource_pool: default
+  persistent_disk: 15000
+  networks:
+  - name: default
+    static_ips: (( param "specify static ips" ))
+
+- name: etcd
+  templates:
+  - {name: etcd, release: kubernetes}
+  instances: 3
+  resource_pool: etcd
+  persistent_disk: 15000
+  networks:
+  - name: default
+    static_ips: (( param "specify static ips" ))
+
+- name: master
+  templates:
+  - {name: docker, release: kubernetes}
+  - {name: flannel, release: kubernetes}
+  - {name: kubernetes-minion, release: kubernetes}
+  - {name: kubernetes-master, release: kubernetes}
+  instances: 3
+  resource_pool: master
+  persistent_disk: 15000
+  networks:
+  - name: default
+    static_ips: (( param "specify static ips" ))
+  properties:
+    manifest-dirs: [/var/vcap/jobs/kubernetes-master/manifests]
+    schedulable: false
+
+- name: minion
+  templates:
+  - {name: docker, release: kubernetes}
+  - {name: flannel, release: kubernetes}
+  - {name: kubernetes-minion, release: kubernetes}
+  instances: 3
+  resource_pool: minion
+  persistent_disk: 15000
+  networks:
+  - name: default
+    static_ips: (( param "specify static ips" ))
+  properties:
+    schedulable: true
+
+- name: create-kubernetes-dns
+  lifecycle: errand
+  templates:
+  - {name: create-kubernetes-dns, release: kubernetes}
+  instances: 1
+  resource_pool: errand
+  networks:
+  - name: default
+
+- name: create-kubernetes-monitoring
+  lifecycle: errand
+  templates:
+  - {name: create-kubernetes-monitoring, release: kubernetes}
+  instances: 1
+  resource_pool: errand
+  networks:
+  - name: default
+
+- name: apply-kubernetes-manifests
+  lifecycle: errand
+  templates:
+  - {name: apply-kubernetes-manifests, release: kubernetes}
+  instances: 1
+  resource_pool: errand
+  networks:
+  - name: default
+
+- name: guestbook-example
+  lifecycle: errand
+  templates:
+  - {name: guestbook-example, release: kubernetes}
+  - {name: flannel, release: kubernetes}
+  instances: 1
+  resource_pool: errand
+  networks:
+  - name: default
 
 properties:
   apiserver:
-    host: (( static_ips(0) ))
-    machines: (( merge ))
+    ip: (( param "specify apiserver host" ))
+    hosts: (( param "specify apiserver hosts" ))
   etcd:
-    machines: (( merge ))
+    machines: (( param "specify etcd machines" ))
     require_ssl: false
     peer_require_ssl: false
-
-resource_pools: (( merge ))
+  certs: {}
+  cloud-provider: ~
+  cloud-credentials: {}

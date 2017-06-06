@@ -1,18 +1,17 @@
 ---
 name: kubernetes
-director_uuid: (( merge ))
+
+director_uuid: (( param "please define director uuid" ))
 
 releases:
- - name: kubernetes
-   version: latest
+- name: kubernetes
+  version: latest
+- name: consul
+  version: latest
 
 compilation:
   workers: 4
-  network: default
   reuse_compilation_vms: false
-  cloud_properties: (( merge ))
-
-resource_pools: (( merge ))
 
 update:
   canaries: 0
@@ -20,8 +19,3 @@ update:
   update_watch_time:  30000-240000
   max_in_flight: 1
   serial: true
-
-networks: (( merge ))
-jobs: (( merge ))
-resource_pools: (( merge ))
-properties: (( merge ))

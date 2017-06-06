@@ -1,0 +1,41 @@
+<% addr = spec.networks.to_h.values.first.ip %>
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube2consul
+  namespace: kube-system
+spec:
+  hostNetwork: true
+  containers:
+  - name: consul-agent
+    image: gliderlabs/consul-agent:0.6
+    args:
+    - -advertise=<%= addr %>
+    - -config-file=/etc/secrets/config.json
+    ports:
+    - hostPort: 8301
+      containerPort: 8301
+      protocol: TCP
+      hostIP: <%= addr %>
+    - hostPort: 8301
+      containerPort: 8301
+      protocol: UDP
+      hostIP: <%= addr %>
+    volumeMounts:
+    - name: secrets
+      mountPath: /etc/secrets
+      readOnly: true
+  - name: kube2consul
+    image: jmccarty3/kube2consul:latest
+    command:
+    - /kube2consul
+    - -consul-agent=http://127.0.0.1:8500
+    - -kube_master_url=http://127.0.0.1:8080
+<% p("kube2consul.args").each do |key, value| %>
+    - -<%= key %>=<% value %>
+<% end %>
+  volumes:
+  - name: secrets
+    hostPath:
+      path: /var/vcap/jobs/kubernetes-master/consul

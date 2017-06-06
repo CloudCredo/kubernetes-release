@@ -2,14 +2,77 @@
 name: kubernetes-master
 
 packages:
-  - common
-  - kubernetes
+- common
+- kubernetes
 
 templates:
+  config/env.sh.erb: config/env.sh
+  config/token-auth.csv.erb: config/token-auth.csv
+  config/basic-auth.csv.erb: config/basic-auth.csv
+  manifests/kube2consul.yml.erb: manifests/kube2consul.yml
+  consul/config.json.erb: consul/config.json
+  consul/ca.crt.erb: consul/ca.crt
+  consul/agent.crt.erb: consul/agent.crt
+  consul/agent.key.erb: consul/agent.key
+  certs/ca.pem.erb: certs/ca.pem
+  certs/kubernetes.pem.erb: certs/kubernetes.pem
+  certs/kubernetes-key.pem.erb: certs/kubernetes-key.pem
   apiserver_ctl.erb: bin/apiserver_ctl
   controller-manager_ctl.erb: bin/controller-manager_ctl
   scheduler_ctl.erb: bin/scheduler_ctl
 
 properties:
-  apiserver.machines:
-    description: List of machines to schedule onto
+  etcd.machines:
+    description: List of etcd hosts
+
+  apiserver.hosts:
+    description: List of master hosts
+
+  apiserver.basic-auth:
+    description: List of basic auth credentials
+    default: []
+
+  apiserver.token-auth:
+    description: List of authentication tokens
+    default: []
+
+  apiserver.event-ttl:
+    description: How long kubernetes will keep events.  A large setting can negatively impact etcd performance. If not specified, will use the kubernetes default.
+
+  certs.ca:
+    description: Kubernetes Certificate Authority certificate
+
+  certs.kubernetes:
+    description: Kubernetes TLS certificate
+
+  certs.kubernetes-key:
+    description: Kubernetes TLS private key
+
+  consul.encrypt:
+    description: Consul gossip encrpytion key
+
+  consul.join_hosts:
+    description: Consul server hosts
+
+  consul.ca_cert:
+    description: Consul CA certificate
+
+  consul.agent_cert:
+    description: Consul agent certificate
+
+  consul.agent_key:
+    description: Consul agent private key
+
+  kube2consul.args:
+    description: "Hash of kube2consul arguments"
+    example:
+      kube-sync: 600
+    default: {}
+
+  cloud-provider:
+    description: K8s cloud provider
+    default: ""
+
+  cloud-credentials.master:
+    description: K8s cloud provider master credentials
+    default: {}

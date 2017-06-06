@@ -1,6 +1,0 @@
----
-name: mercurial
-dependencies:
-  - python
-files:
-  - mercurial/**/*

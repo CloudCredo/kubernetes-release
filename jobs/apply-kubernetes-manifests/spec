@@ -1,0 +1,14 @@
+---
+name: apply-kubernetes-manifests
+templates:
+  bin/run.erb: bin/run
+packages:
+- kubernetes
+
+properties:
+  apiserver.host:
+    description: The host running the apiserver to connect to
+
+  manifests:
+    description: List of Kubernetes manifests
+    default: []

@@ -1,0 +1,3 @@
+<% p('apiserver.basic-auth').each do |user| %>
+<%= [user['password'], user['user'], user['uid']].join(',') %>
+<% end %>

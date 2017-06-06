@@ -1,11 +1,19 @@
 #!/bin/bash
 set -e
 API_HOST=<%= p('apiserver.host') %>
-PATH=$PATH:/var/vcap/packages/kubernetes/
+PATH=$PATH:/var/vcap/packages/kubernetes/bin
 cd /var/vcap/jobs/create-kubernetes-dns/bin
-kubectl -s http://${API_HOST}:8080 create -f skydns-controller.yaml
-kubectl -s http://${API_HOST}:8080 create -f skydns-service.yaml
-until kubectl -s http://${API_HOST}:8080 get pod --namespace=kube-system | grep 'kube-dns-.* 4/4 '
-do
+kubectl -s http://${API_HOST}:8080 apply -f skydns-controller.yaml
+kubectl -s http://${API_HOST}:8080 apply -f skydns-service.yaml
+
+counter=60
+until [ $counter -le 0 ]; do
+  if kubectl -s http://${API_HOST}:8080 get pod --namespace=kube-system | grep 'kube-dns-.* 3/3 '; then
+    exit 0
+  fi
   sleep 5
+  let counter-=1
 done
+
+echo "Failed to start KubeDNS"
+exit 1
