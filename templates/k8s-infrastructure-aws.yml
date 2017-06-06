@@ -1,100 +1,75 @@
-meta:
-  aws:
-    az: (( param "specify availability zone" ))
-
 compilation:
-  cloud_properties:
-    availability_zone: (( grab meta.aws.az ))
-    instance_type: m3.large
+  vm_type: kubernetes_compilation
+  network: kubernetes-aws
 
-resource_pools:
-- name: default
-  network: default
-  stemcell:
+stemcells:
+    alias: aws-default
     name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
     version: latest
-  cloud_properties:
-    instance_type: m3.large
-    availability_zone: (( grab meta.aws.az ))
-
-- name: etcd
-  network: default
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
-  cloud_properties:
-    instance_type: t2.small
-    availability_zone: (( grab meta.aws.az ))
-    iam_instance_profile: (( param "specify etcd instance profile" ))
-
-- name: master
-  network: default
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
-  cloud_properties:
-    instance_type: m3.large
-    availability_zone: (( grab meta.aws.az ))
-    iam_instance_profile: (( param "specify master instance profile" ))
-
-- name: minion
-  network: default
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
-  cloud_properties:
-    instance_type: m3.large
-    availability_zone: (( grab meta.aws.az ))
-    iam_instance_profile: (( param "specify minion instance profile" ))
-
-- name: errand
-  network: default
-  stemcell:
-    name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-    version: latest
-  cloud_properties:
-    instance_type: m3.large
-    availability_zone: (( grab meta.aws.az ))
 
 jobs:
 - name: consul
   instances: 3
+  stemcell: aws-default
+  vm_type: kubernetes_aws_default
   networks:
-  - name: default
-    static_ips: (( static_ips(0, 1, 2) ))
+  - name: kubernetes-aws
+    static_ips:
+    - (( grab terraform_outputs.kubernetes_static_ips.[0] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[1] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[2] ))
 
 - name: etcd
   instances: 3
+  stemcell: aws-default
+  vm_type: kubernetes_etcd
+  vm_extension: kubernetes-etcd-profile
   networks:
-  - name: default
-    static_ips: (( static_ips(3, 4, 5) ))
+  - name: kubernetes-aws
+    static_ips:
+    - (( grab terraform_outputs.kubernetes_static_ips.[3] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[4] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[5] ))
 
 - name: master
   instances: 3
+  stemcell: aws-default
+  vm_type: kubernetes_master
+  vm_extension: kubernetes-master-profile
   networks:
-  - name: default
-    static_ips: (( static_ips(6, 7, 8) ))
+  - name: kubernetes-aws
+    static_ips:
+    - (( grab terraform_outputs.kubernetes_static_ips.[6] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[7] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[8] ))
 
 - name: minion
   instances: 2
+  stemcell: aws-default
+  vm_type: kubernetes_minion
+  vm_extension: kubernetes-minion-profile
   networks:
-  - name: default
-    static_ips: (( static_ips(9, 10) ))
+  - name: kubernetes-aws
+    static_ips:
+    - (( grab terraform_outputs.kubernetes_static_ips.[9] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[10] ))
 
 - name: guestbook-example
   lifecycle: errand
   instances: 1
+  stemcell: aws-default
+  vm_type: kubernetes_errand
   networks:
-  - name: default
+  - name: kubernetes-aws
 
 properties:
-  nodes: (( grab jobs.master.networks.default.static_ips jobs.minion.networks.default.static_ips ))
+  nodes: (( grab jobs.master.networks.kubernetes-aws.static_ips jobs.minion.networks.kubernetes-aws.static_ips ))
   apiserver:
-    ip: (( grab jobs.etcd.networks.default.static_ips.[0] ))
-    host: (( grab jobs.master.networks.default.static_ips.[0] ))
-    hosts: (( grab jobs.master.networks.default.static_ips ))
+    ip: (( grab jobs.etcd.networks.kubernetes-aws.static_ips.[0] ))
+    host: (( grab jobs.master.networks.kubernetes-aws.static_ips.[0] ))
+    hosts: (( grab jobs.master.networks.kubernetes-aws.static_ips ))
   consul:
-    join_host: (( grab jobs.consul.networks.default.static_ips.[0] ))
-    join_hosts: (( grab jobs.consul.networks.default.static_ips ))
+    join_host: (( grab jobs.consul.networks.kubernetes-aws.static_ips.[0] ))
+    join_hosts: (( grab jobs.consul.networks.kubernetes-aws.static_ips ))
   etcd:
-    machines: (( grab jobs.etcd.networks.default.static_ips ))
+    machines: (( grab jobs.etcd.networks.kubernetes-aws.static_ips ))
