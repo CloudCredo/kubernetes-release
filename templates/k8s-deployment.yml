@@ -9,11 +9,6 @@ releases:
 - name: consul
   version: latest
 
-compilation:
-  workers: 4
-  network: default
-  reuse_compilation_vms: false
-
 update:
   canaries: 0
   canary_watch_time: 30000-240000

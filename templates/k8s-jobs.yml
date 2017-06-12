@@ -1,99 +1,143 @@
-jobs:
+instance_groups:
 - name: consul
-  templates:
-  - {name: consul, release: consul}
+  jobs:
+  - name: consul
+    release: consul
   instances: 3
-  resource_pool: default
-  persistent_disk: 15000
+  vm_type: kubernetes_default
+  disk_type: kubernetes
+  stemcell: default
+  azs: [az1]
   networks:
-  - name: default
-    static_ips: (( param "specify static ips" ))
+  - name: services
+    static_ips: (( param "specify static ips for consul instances" ))
 
 - name: etcd
-  templates:
-  - {name: etcd, release: kubernetes}
+  jobs:
+  - name: etcd
+    release: kubernetes
   instances: 3
-  resource_pool: etcd
-  persistent_disk: 15000
+  vm_type: kubernetes_etcd
+  disk_type: kubernetes
+  stemcell: default
+  azs: [az1]
   networks:
-  - name: default
-    static_ips: (( param "specify static ips" ))
+  - name: services
+    static_ips: (( param "specify static ips for etcd instances" ))
 
 - name: master
-  templates:
-  - {name: docker, release: kubernetes}
-  - {name: flannel, release: kubernetes}
-  - {name: kubernetes-minion, release: kubernetes}
-  - {name: kubernetes-master, release: kubernetes}
+  jobs:
+  - name: docker
+    release: kubernetes
+  - name: flannel
+    release: kubernetes
+  - name: kubernetes-minion
+    release: kubernetes
+    properties:
+      manifest-dirs: [/var/vcap/jobs/kubernetes-master/manifests]
+      schedulable: false
+  - name: kubernetes-master
+    release: kubernetes
+    properties:
+      etcd:
+        machines: (( grab instance_groups.etcd.networks.services.static_ips ))
+        require_ssl: false
+        peer_require_ssl: false
+      consul:
+        join_hosts: (( grab instance_groups.consul.networks.services.static_ips ))
   instances: 3
-  resource_pool: master
-  persistent_disk: 15000
+  vm_type: kubernetes_master
+  disk_type: kubernetes
+  stemcell: default
+  azs: [az1]
   networks:
-  - name: default
-    static_ips: (( param "specify static ips" ))
-  properties:
-    manifest-dirs: [/var/vcap/jobs/kubernetes-master/manifests]
-    schedulable: false
+  - name: services
+    static_ips: (( param "specify static ips for master instances" ))
 
 - name: minion
-  templates:
-  - {name: docker, release: kubernetes}
-  - {name: flannel, release: kubernetes}
-  - {name: kubernetes-minion, release: kubernetes}
+  jobs:
+  - name: docker
+    release: kubernetes
+  - name: flannel
+    release: kubernetes
+  - name: kubernetes-minion
+    release: kubernetes
+    properties:
+      schedulable: true
   instances: 3
-  resource_pool: minion
-  persistent_disk: 15000
+  vm_type: kubernetes_minion
+  disk_type: kubernetes
+  stemcell: default
+  azs: [az1]
   networks:
-  - name: default
-    static_ips: (( param "specify static ips" ))
-  properties:
-    schedulable: true
+  - name: services
+    static_ips: (( param "specify staitc ips for minion instances" ))
 
 - name: create-kubernetes-dns
   lifecycle: errand
-  templates:
-  - {name: create-kubernetes-dns, release: kubernetes}
+  jobs:
+  - name: create-kubernetes-dns
+    release: kubernetes
   instances: 1
-  resource_pool: errand
+  vm_type: kubernetes_errand
+  stemcell: default
+  azs: [az1]
   networks:
-  - name: default
+  - name: services
 
 - name: create-kubernetes-monitoring
   lifecycle: errand
-  templates:
-  - {name: create-kubernetes-monitoring, release: kubernetes}
+  jobs:
+  - name: create-kubernetes-monitoring
+    release: kubernetes
+    properties:
+      nodes: (( grab instance_groups.master.networks.services.static_ips instance_groups.minion.networks.services.static_ips ))
   instances: 1
-  resource_pool: errand
+  vm_type: kubernetes_errand
+  stemcell: default
+  azs: [az1]
   networks:
-  - name: default
+  - name: services
 
 - name: apply-kubernetes-manifests
   lifecycle: errand
-  templates:
-  - {name: apply-kubernetes-manifests, release: kubernetes}
+  jobs:
+  - name: apply-kubernetes-manifests
+    release: kubernetes
   instances: 1
-  resource_pool: errand
+  vm_type: kubernetes_errand
+  stemcell: default
+  azs: [az1]
   networks:
-  - name: default
+  - name: services
 
 - name: guestbook-example
   lifecycle: errand
-  templates:
-  - {name: guestbook-example, release: kubernetes}
-  - {name: flannel, release: kubernetes}
+  jobs:
+  - name: guestbook-example
+    release: kubernetes
+  - name: flannel
+    release: kubernetes
   instances: 1
-  resource_pool: errand
+  vm_type: kubernetes_errand
+  stemcell: default
+  azs: [az1]
   networks:
-  - name: default
+  - name: services
 
-properties:
-  apiserver:
-    ip: (( param "specify apiserver host" ))
-    hosts: (( param "specify apiserver hosts" ))
-  etcd:
-    machines: (( param "specify etcd machines" ))
-    require_ssl: false
-    peer_require_ssl: false
-  certs: {}
-  cloud-provider: ~
-  cloud-credentials: {}
+# TODO: dedupe and match to proper jobs
+# properties:
+#   apiserver:
+#     ip: (( param "specify apiserver host" ))
+#     hosts: (( param "specify apiserver hosts" ))
+#   certs: {}
+#   cloud-provider: ~
+#   cloud-credentials: {}
+
+# properties:
+#   apiserver:
+#     ip: (( grab jobs.etcd.networks.default.static_ips.[0] ))
+#     host: (( grab jobs.master.networks.default.static_ips.[0] ))
+#     hosts: (( grab jobs.master.networks.default.static_ips ))
+#   consul:
+#     join_host: (( grab jobs.consul.networks.default.static_ips.[0] ))

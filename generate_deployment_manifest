@@ -9,18 +9,7 @@ which spruce > /dev/null 2>&1 || {
 
 templates="$(dirname $0)/templates"
 
-infrastructure="${1:?}"
-
-shift
-
-if [ "$infrastructure" != "aws" ] && \
-    [ "$infrastructure" != "warden" ] ; then
-  echo "Usage: ./scripts/generate_deployment_manifest <aws|warden> [stubs...]" 1>&2
-  exit 1
-fi
-
 spruce merge \
   "$templates/k8s-deployment.yml" \
   "$templates/k8s-jobs.yml" \
-  "$templates/k8s-infrastructure-${infrastructure}.yml" \
   "$@"

@@ -1,37 +1,47 @@
-meta:
-  aws:
-    az: us-east-1a
-
 director_uuid: DIRECTOR_UUID
 
-networks:
-- name: default
-  type: manual
-  subnets:
-  - range: 10.0.18.0/24
-    gateway: 10.0.18.1
-    reserved:
-    - 10.0.18.2 - 10.0.18.9
-    static:
-    - 10.0.18.10 - 10.0.18.13
-    dns:
-    - 10.0.0.2
-    cloud_properties:
-      subnet: SUBNET_ID
+stemcells:
+- alias: default
+  name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+  version: latest
 
-resource_pools:
+instance_groups:
+- name: consul
+  properties:
+    consul:
+      default_recursor: 8.8.8.8
+      ssl_ca: -- SECRET --
+      ssl_cert:  -- SECRET --
+      ssl_key:  -- SECRET --
+      domain: kubernetes
+      encrypt: SECRETKEY
+  networks:
+  - name: services
+    static_ips:
+    - (( grab terraform_outputs.kubernetes_static_ips.[0] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[1] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[2] ))
+- name: etcd
+  vm_extension: kubernetes-etcd-profile
+  networks:
+  - name: services
+    static_ips:
+    - (( grab terraform_outputs.kubernetes_static_ips.[3] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[4] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[5] ))
 - name: master
-  cloud_properties:
-    iam_instance_profile: IAM_ROLE_MASTER
+  vm_extension: kubernetes-master-profile
+  networks:
+  - name: services
+    static_ips:
+    - (( grab terraform_outputs.kubernetes_static_ips.[6] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[7] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[8] ))
 - name: minion
-  cloud_properties:
-    iam_instance_profile: IAM_ROLE_MINION
-
-properties:
-  consul:
-    default_recursor: 8.8.8.8
-    ssl_ca: -- SECRET --
-    ssl_cert:  -- SECRET --
-    ssl_key:  -- SECRET --
-    domain: kubernetes
-    encrypt: SECRETKEY
+  vm_extension: kubernetes-minion-profile
+  networks:
+  - name: services
+    static_ips:
+    - (( grab terraform_outputs.kubernetes_static_ips.[9] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[10] ))
+    - (( grab terraform_outputs.kubernetes_static_ips.[11] ))
