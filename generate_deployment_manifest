@@ -9,7 +9,7 @@ which spruce > /dev/null 2>&1 || {
 
 templates="$(dirname $0)/templates"
 
-spruce merge \
+spruce merge --prune meta \
   "$templates/k8s-deployment.yml" \
   "$templates/k8s-jobs.yml" \
   "$templates/k8s-infrastructure-aws.yml" \

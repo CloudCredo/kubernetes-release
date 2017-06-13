@@ -1,3 +1,7 @@
+meta:
+  aws:
+    default_region: (( param "please specify default AWS region" ))
+
 stemcells:
 - alias: default
   name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
@@ -7,6 +11,29 @@ instance_groups:
 - name: etcd
   vm_extension: kubernetes-etcd-profile
 - name: master
+  jobs:
+  - name: kubernetes-master
+    properties:
+      cloud-provider: aws
+      cloud-credentials:
+        master:
+          AWS_DEFAULT_REGION: (( grab meta.aws.default_region ))
+          AWS_REGION: (( grab meta.aws.default_region ))
+  - name: kubernetes-minion
+    properties:
+      cloud-provider: aws
+      cloud-credentials:
+        minion:
+          AWS_DEFAULT_REGION: (( grab meta.aws.default_region ))
+          AWS_REGION: (( grab meta.aws.default_region ))
   vm_extension: kubernetes-master-profile
 - name: minion
+  jobs:
+  - name: kubernetes-minion
+    properties:
+      cloud-provider: aws
+      cloud-credentials:
+        minion:
+          AWS_DEFAULT_REGION: (( grab meta.aws.default_region ))
+          AWS_REGION: (( grab meta.aws.default_region ))
   vm_extension: kubernetes-minion-profile

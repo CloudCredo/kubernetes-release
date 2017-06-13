@@ -36,6 +36,9 @@ instance_groups:
     properties:
       manifest-dirs: [/var/vcap/jobs/kubernetes-master/manifests]
       schedulable: false
+      apiserver:
+        hosts: (( grab instance_groups.master.networks.services.static_ips ))
+      cloud-credentials: (( param "specify cloud-credentials" ))
   - name: kubernetes-master
     release: kubernetes
     properties:
@@ -45,6 +48,13 @@ instance_groups:
         peer_require_ssl: false
       consul:
         join_hosts: (( grab instance_groups.consul.networks.services.static_ips ))
+      apiserver:
+        hosts: (( grab instance_groups.master.networks.services.static_ips ))
+      cloud-credentials: (( param "specify cloud-credentials" ))
+      certs:
+        ca: (( param "specify CA cert" ))
+        kubernetes: (( param "specify kubernetes cert" ))
+        kubernetes-key: (( param "specify kubernetes cert key" ))
   instances: 3
   vm_type: kubernetes_master
   disk_type: kubernetes
@@ -64,6 +74,9 @@ instance_groups:
     release: kubernetes
     properties:
       schedulable: true
+      apiserver:
+        hosts: (( grab instance_groups.master.networks.services.static_ips ))
+      cloud-credentials: (( param "specify cloud-credentials" ))
   instances: 3
   vm_type: kubernetes_minion
   disk_type: kubernetes
@@ -78,6 +91,9 @@ instance_groups:
   jobs:
   - name: create-kubernetes-dns
     release: kubernetes
+    properties:
+      apiserver:
+        host: (( grab instance_groups.master.networks.services.static_ips.[0] ))
   instances: 1
   vm_type: kubernetes_errand
   stemcell: default
@@ -92,6 +108,8 @@ instance_groups:
     release: kubernetes
     properties:
       nodes: (( grab instance_groups.master.networks.services.static_ips instance_groups.minion.networks.services.static_ips ))
+      apiserver:
+        host: (( grab instance_groups.master.networks.services.static_ips.[0] ))
   instances: 1
   vm_type: kubernetes_errand
   stemcell: default
@@ -104,6 +122,9 @@ instance_groups:
   jobs:
   - name: apply-kubernetes-manifests
     release: kubernetes
+    properties:
+      apiserver:
+        host: (( grab instance_groups.master.networks.services.static_ips.[0] ))
   instances: 1
   vm_type: kubernetes_errand
   stemcell: default
@@ -116,28 +137,14 @@ instance_groups:
   jobs:
   - name: guestbook-example
     release: kubernetes
+    properties:
+      apiserver:
+        host: (( grab instance_groups.master.networks.services.static_ips.[0] ))
   - name: flannel
     release: kubernetes
-  instances: 1
+  instances: 0
   vm_type: kubernetes_errand
   stemcell: default
   azs: [az1]
   networks:
   - name: services
-
-# TODO: dedupe and match to proper jobs
-# properties:
-#   apiserver:
-#     ip: (( param "specify apiserver host" ))
-#     hosts: (( param "specify apiserver hosts" ))
-#   certs: {}
-#   cloud-provider: ~
-#   cloud-credentials: {}
-
-# properties:
-#   apiserver:
-#     ip: (( grab jobs.etcd.networks.default.static_ips.[0] ))
-#     host: (( grab jobs.master.networks.default.static_ips.[0] ))
-#     hosts: (( grab jobs.master.networks.default.static_ips ))
-#   consul:
-#     join_host: (( grab jobs.consul.networks.default.static_ips.[0] ))

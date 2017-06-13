@@ -1,3 +1,7 @@
+meta:
+  aws:
+    default_region: us-gov-west-1
+
 director_uuid: DIRECTOR_UUID
 
 instance_groups:
@@ -30,6 +34,13 @@ instance_groups:
     - 10.1.100.106
     - 10.1.100.107
     - 10.1.100.108
+  jobs:
+  - name: kubernetes-master
+    properties:
+      certs:
+        ca: -- SECRET --
+        kubernetes: -- SECRET --
+        kubernetes-key: -- SECRET --
 - name: minion
   networks:
   - name: services
