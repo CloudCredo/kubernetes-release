@@ -1,10 +1,5 @@
 director_uuid: DIRECTOR_UUID
 
-stemcells:
-- alias: default
-  name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
-  version: latest
-
 instance_groups:
 - name: consul
   properties:
@@ -18,30 +13,27 @@ instance_groups:
   networks:
   - name: services
     static_ips:
-    - (( grab terraform_outputs.kubernetes_static_ips.[0] ))
-    - (( grab terraform_outputs.kubernetes_static_ips.[1] ))
-    - (( grab terraform_outputs.kubernetes_static_ips.[2] ))
+    - 10.1.100.100
+    - 10.1.100.101
+    - 10.1.100.102
 - name: etcd
-  vm_extension: kubernetes-etcd-profile
   networks:
   - name: services
     static_ips:
-    - (( grab terraform_outputs.kubernetes_static_ips.[3] ))
-    - (( grab terraform_outputs.kubernetes_static_ips.[4] ))
-    - (( grab terraform_outputs.kubernetes_static_ips.[5] ))
+    - 10.1.100.103
+    - 10.1.100.104
+    - 10.1.100.105
 - name: master
-  vm_extension: kubernetes-master-profile
   networks:
   - name: services
     static_ips:
-    - (( grab terraform_outputs.kubernetes_static_ips.[6] ))
-    - (( grab terraform_outputs.kubernetes_static_ips.[7] ))
-    - (( grab terraform_outputs.kubernetes_static_ips.[8] ))
+    - 10.1.100.106
+    - 10.1.100.107
+    - 10.1.100.108
 - name: minion
-  vm_extension: kubernetes-minion-profile
   networks:
   - name: services
     static_ips:
-    - (( grab terraform_outputs.kubernetes_static_ips.[9] ))
-    - (( grab terraform_outputs.kubernetes_static_ips.[10] ))
-    - (( grab terraform_outputs.kubernetes_static_ips.[11] ))
+    - 10.1.100.109
+    - 10.1.100.110
+    - 10.1.100.111

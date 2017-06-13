@@ -12,4 +12,5 @@ templates="$(dirname $0)/templates"
 spruce merge \
   "$templates/k8s-deployment.yml" \
   "$templates/k8s-jobs.yml" \
+  "$templates/k8s-infrastructure-aws.yml" \
   "$@"

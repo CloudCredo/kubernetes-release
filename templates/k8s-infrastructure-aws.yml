@@ -1,0 +1,12 @@
+stemcells:
+- alias: default
+  name: bosh-aws-xen-hvm-ubuntu-trusty-go_agent
+  version: latest
+
+instance_groups:
+- name: etcd
+  vm_extension: kubernetes-etcd-profile
+- name: master
+  vm_extension: kubernetes-master-profile
+- name: minion
+  vm_extension: kubernetes-minion-profile
