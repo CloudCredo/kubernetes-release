@@ -7,7 +7,7 @@ instance_groups:
   vm_type: kubernetes_consul
   disk_type: kubernetes
   stemcell: default
-  azs: [az1]
+  azs: [z1]
   networks:
   - name: services
     static_ips: (( param "specify static ips for consul instances" ))
@@ -20,7 +20,7 @@ instance_groups:
   vm_type: kubernetes_etcd
   disk_type: kubernetes
   stemcell: default
-  azs: [az1]
+  azs: [z1]
   networks:
   - name: services
     static_ips: (( param "specify static ips for etcd instances" ))
@@ -59,7 +59,7 @@ instance_groups:
   vm_type: kubernetes_master
   disk_type: kubernetes
   stemcell: default
-  azs: [az1]
+  azs: [z1]
   networks:
   - name: services
     static_ips: (( param "specify static ips for master instances" ))
@@ -81,7 +81,7 @@ instance_groups:
   vm_type: kubernetes_minion
   disk_type: kubernetes
   stemcell: default
-  azs: [az1]
+  azs: [z1]
   networks:
   - name: services
     static_ips: (( param "specify static ips for minion instances" ))
@@ -97,7 +97,7 @@ instance_groups:
   instances: 1
   vm_type: kubernetes_errand
   stemcell: default
-  azs: [az1]
+  azs: [z1]
   networks:
   - name: services
 
@@ -113,7 +113,7 @@ instance_groups:
   instances: 1
   vm_type: kubernetes_errand
   stemcell: default
-  azs: [az1]
+  azs: [z1]
   networks:
   - name: services
 
@@ -128,7 +128,7 @@ instance_groups:
   instances: 1
   vm_type: kubernetes_errand
   stemcell: default
-  azs: [az1]
+  azs: [z1]
   networks:
   - name: services
 
@@ -145,6 +145,6 @@ instance_groups:
   instances: 0
   vm_type: kubernetes_errand
   stemcell: default
-  azs: [az1]
+  azs: [z1]
   networks:
   - name: services
