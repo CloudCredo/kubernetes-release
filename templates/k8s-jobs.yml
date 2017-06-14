@@ -98,7 +98,7 @@ instance_groups:
       apiserver:
         host: (( grab instance_groups.master.networks.services.static_ips.[0] ))
   instances: 1
-  vm_type: kubernetes_errand
+  vm_type: errand_small
   stemcell: default
   azs: [z1]
   networks:
@@ -114,7 +114,7 @@ instance_groups:
       apiserver:
         host: (( grab instance_groups.master.networks.services.static_ips.[0] ))
   instances: 1
-  vm_type: kubernetes_errand
+  vm_type: errand_small
   stemcell: default
   azs: [z1]
   networks:
@@ -129,7 +129,7 @@ instance_groups:
       apiserver:
         host: (( grab instance_groups.master.networks.services.static_ips.[0] ))
   instances: 1
-  vm_type: kubernetes_errand
+  vm_type: errand_small
   stemcell: default
   azs: [z1]
   networks:
@@ -146,7 +146,7 @@ instance_groups:
   - name: flannel
     release: kubernetes
   instances: 0
-  vm_type: kubernetes_errand
+  vm_type: errand_small
   stemcell: default
   azs: [z1]
   networks:
