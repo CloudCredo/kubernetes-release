@@ -134,20 +134,3 @@ instance_groups:
   azs: [z1]
   networks:
   - name: services
-
-- name: guestbook-example
-  lifecycle: errand
-  jobs:
-  - name: guestbook-example
-    release: kubernetes
-    properties:
-      apiserver:
-        host: (( grab instance_groups.master.networks.services.static_ips.[0] ))
-  - name: flannel
-    release: kubernetes
-  instances: 0
-  vm_type: errand_small
-  stemcell: default
-  azs: [z1]
-  networks:
-  - name: services
