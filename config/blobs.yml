@@ -1,41 +1,39 @@
----
-docker/aufs-tools_20120411-3_amd64.deb:
-  object_id: 14387e29-90bf-4682-9c6f-270fc01ccffc
-  sha: 2dfc1fe386cd3f05ac7e0b4ebcf3ebc8a7f3b04d
-  size: 91762
-docker/autoconf-2.69.tar.gz:
-  object_id: 67b2bf5f-6171-458f-aef1-50ce57d030e1
-  sha: 562471cbcb0dd0fa42a76665acf0dbb68479b78a
-  size: 1927468
-docker/bridge-utils-1.5.tar.gz:
-  object_id: 5d74b47a-ec01-40bf-891c-ee18a87ed27a
-  sha: 19d2a58cd3a70f971aa931b40256174a847e60d6
-  size: 33243
-docker/docker-1.11.0.tgz:
-  object_id: 4ea05593-59ef-431e-b472-8777e0f95c14
-  sha: 242b6a3e6def6719f5002a4d3d5b35e587036c4e
-  size: 20520756
-flannel/flannel-0.5.5-linux-amd64.tar.gz:
-  object_id: 3477eb5a-0906-45a7-af39-68afccd9f4c4
-  sha: fab60fdf23b029fa39badc008fe951bce5046caa
-  size: 3489977
-kubernetes/kubernetes-server-linux-amd64.tar.gz:
-  object_id: b276b59b-d7fa-4607-93ff-03885fe86845
-  sha: 9b112cd30db450127eb5ca2f5fa02e5631e57e31
-  size: 313321400
 aws-cli/awscli-bundle.zip:
+  size: 6879872
   object_id: cdbb9377-d90e-4983-835f-72799d91f362
   sha: 95b38729dcb07acb692283de7013823e8aa75a9b
-  size: 6879872
-python/Python-2.7.8.tgz:
-  object_id: 3586ff5f-9ae0-4b6b-9b14-fd9ab85da701
-  sha: 511960dd78451a06c9df76509635aeec05b2051a
-  size: 14846119
+docker/aufs-tools_20120411-3_amd64.deb:
+  size: 91762
+  object_id: 14387e29-90bf-4682-9c6f-270fc01ccffc
+  sha: 2dfc1fe386cd3f05ac7e0b4ebcf3ebc8a7f3b04d
+docker/autoconf-2.69.tar.gz:
+  size: 1927468
+  object_id: 67b2bf5f-6171-458f-aef1-50ce57d030e1
+  sha: 562471cbcb0dd0fa42a76665acf0dbb68479b78a
+docker/bridge-utils-1.5.tar.gz:
+  size: 33243
+  object_id: 5d74b47a-ec01-40bf-891c-ee18a87ed27a
+  sha: 19d2a58cd3a70f971aa931b40256174a847e60d6
+docker/docker-1.11.0.tgz:
+  size: 20520756
+  object_id: 4ea05593-59ef-431e-b472-8777e0f95c14
+  sha: 242b6a3e6def6719f5002a4d3d5b35e587036c4e
 etcd/etcd-v2.1.1-linux-amd64.tar.gz:
+  size: 5608238
   object_id: 5484981b-7806-470e-a6d6-65559343180d
   sha: d90a29e051f8dea2f5bb4200610ccbcec45497d7
-  size: 5608238
+flannel/flannel-0.5.5-linux-amd64.tar.gz:
+  size: 3489977
+  object_id: 3477eb5a-0906-45a7-af39-68afccd9f4c4
+  sha: fab60fdf23b029fa39badc008fe951bce5046caa
 golang/go1.7.3.linux-amd64.tar.gz:
+  size: 82565628
   object_id: 33f3095f-14b5-455e-9e21-1b6361590de2
   sha: ead40e884ad4d6512bcf7b3c7420dd7fa4a96140
-  size: 82565628
+kubernetes/kubernetes-server-linux-amd64.tar.gz:
+  size: 323569533
+  sha: 5186f80a0c6e964b8ce25bedccb36f855691ab6c
+python/Python-2.7.8.tgz:
+  size: 14846119
+  object_id: 3586ff5f-9ae0-4b6b-9b14-fd9ab85da701
+  sha: 511960dd78451a06c9df76509635aeec05b2051a
