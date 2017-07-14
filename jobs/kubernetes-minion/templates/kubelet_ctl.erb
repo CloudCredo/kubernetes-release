@@ -47,7 +47,7 @@ case $1 in
 --logtostderr=true \
 --docker-endpoint=unix:///var/vcap/sys/run/docker/docker.sock \
 --root-dir=$ROOT_DIR \
---config=${MANIFEST_DIR} \
+--pod-manifest-path=${MANIFEST_DIR} \
 --cloud-provider=<%= p('cloud-provider') %> \
 --cluster_dns=10.0.0.10 \
 --cluster_domain=cluster.local \

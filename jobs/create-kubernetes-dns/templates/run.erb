@@ -3,8 +3,8 @@ set -e
 API_HOST=<%= p('apiserver.host') %>
 PATH=$PATH:/var/vcap/packages/kubernetes/bin
 cd /var/vcap/jobs/create-kubernetes-dns/bin
-kubectl -s http://${API_HOST}:8080 apply -f skydns-controller.yaml
-kubectl -s http://${API_HOST}:8080 apply -f skydns-service.yaml
+kubectl -s http://${API_HOST}:8080 apply -f kubedns-deployment.yaml
+kubectl -s http://${API_HOST}:8080 apply -f kubedns-service.yaml
 
 counter=60
 until [ $counter -le 0 ]; do

@@ -39,6 +39,14 @@ properties:
   apiserver.event-ttl:
     description: How long kubernetes will keep events.  A large setting can negatively impact etcd performance. If not specified, will use the kubernetes default.
 
+  apiserver.storage_backend:
+    description: Storage backend
+    default: etcd2
+
+  apiserver.storage_media_type:
+    description: Storage media type
+    default: application/json
+
   certs.ca:
     description: Kubernetes Certificate Authority certificate
 

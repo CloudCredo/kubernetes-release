@@ -39,6 +39,8 @@ case $1 in
 --logtostderr=true \
 --service-account-key-file=${CERT_DIR}/kubernetes-key.pem \
 --service-cluster-ip-range="10.0.0.0/24" \
+--storage-backend=<%= p('apiserver.storage_backend') %> \
+--storage-media-type=<%= p('apiserver.storage_media_type') %> \
 --tls-cert-file=${CERT_DIR}/kubernetes.pem \
 --tls-private-key-file=${CERT_DIR}/kubernetes-key.pem \
 ${BASIC_AUTH_FILE:-} \

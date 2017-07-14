@@ -12,12 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This file should be kept in sync with cluster/images/hyperkube/dns-rc.yaml
-
-# TODO - At some point, we need to rename all skydns-*.yaml.* files to kubedns-*.yaml.*
-
-# Warning: This is a file generated from the base underscore template file: skydns-rc.yaml.base
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -26,6 +20,7 @@ metadata:
   labels:
     k8s-app: kube-dns
     kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
     kubernetes.io/name: "KubeDNS"
 spec:
   selector:

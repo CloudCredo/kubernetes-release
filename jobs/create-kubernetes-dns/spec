@@ -2,10 +2,10 @@
 name: create-kubernetes-dns
 templates:
   run.erb: bin/run
-  skydns-controller.yaml.erb: bin/skydns-controller.yaml
-  skydns-service.yaml.erb: bin/skydns-service.yaml
+  kubedns-deployment.yaml.erb: bin/kubedns-deployment.yaml
+  kubedns-service.yaml.erb: bin/kubedns-service.yaml
 packages:
-  - kubernetes
+- kubernetes
 
 properties:
   apiserver.host:
