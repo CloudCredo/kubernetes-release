@@ -2,6 +2,7 @@
 
 ROOT_DIR=/var/vcap/data/kubelet
 RUN_DIR=/var/vcap/sys/run/kubelet
+LOG_DIR=/var/vcap/sys/log/kubelet
 MANIFEST_DIR=${RUN_DIR}/manifests
 CERT_DIR=${RUN_DIR}/certs
 DOCKER_BOSH_RELEASE_PID=/var/vcap/sys/run/docker/docker.pid
@@ -20,6 +21,7 @@ case $1 in
     mkdir -p $ROOT_DIR
     mkdir -p $MANIFEST_DIR
     mkdir -p $CERT_DIR
+    mkdir -p $LOG_DIR
 
     if [ -f "${DOCKER_BOSH_RELEASE_PID}" ]; then
       ln -sf ${DOCKER_BOSH_RELEASE_PID} ${KUBERNETES_DOCKER_PID}
@@ -38,20 +40,21 @@ case $1 in
 
     <% addr = spec.networks.to_h.values.first.ip %>
     exec /var/vcap/packages/kubernetes/bin/kubelet \
---address=<%= addr %> \
---allow-privileged=true \
---port=10250 \
---hostname_override=<%= addr %> \
---api-servers=<%= p('apiserver.hosts').map { |h| "http://#{h}:8080" }.join ',' %> \
---cert-dir=$CERT_DIR \
---logtostderr=true \
---docker-endpoint=unix:///var/vcap/sys/run/docker/docker.sock \
---root-dir=$ROOT_DIR \
---pod-manifest-path=${MANIFEST_DIR} \
---cloud-provider=<%= p('cloud-provider') %> \
---cluster_dns=10.0.0.10 \
---cluster_domain=cluster.local \
-<% if_p('schedulable') do |schedulable| %>--register-schedulable=<%= schedulable.to_s %><% end %>
+      --address=<%= addr %> \
+      --allow-privileged=true \
+      --port=10250 \
+      --hostname_override=<%= addr %> \
+      --api-servers=<%= p('apiserver.hosts').map { |h| "http://#{h}:8080" }.join ',' %> \
+      --cert-dir=$CERT_DIR \
+      --docker-endpoint=unix:///var/vcap/sys/run/docker/docker.sock \
+      --root-dir=$ROOT_DIR \
+      --pod-manifest-path=${MANIFEST_DIR} \
+      --cloud-provider=<%= p('cloud-provider') %> \
+      --cluster_dns=10.0.0.10 \
+      --cluster_domain=cluster.local \
+      <% if_p('schedulable') do |schedulable| %>--register-schedulable=<%= schedulable.to_s %><% end %> \
+    1>> $LOG_DIR/kubelet.stdout.log \
+    2>> $LOG_DIR/kubelet.stderr.log
     ;;
 
   stop)

@@ -2,6 +2,7 @@
 
 CERT_DIR=/var/vcap/jobs/kubernetes-master/certs
 RUN_DIR=/var/vcap/sys/run/controller-manager
+LOG_DIR=/var/vcap/sys/log/controller-manager
 
 PIDFILE=$RUN_DIR/controller-manager.pid
 
@@ -14,16 +15,18 @@ case $1 in
     pid_guard $PIDFILE "controller-manager"
 
     mkdir -p $RUN_DIR
+    mkdir -p $LOG_DIR
 
     echo $$ > $PIDFILE
 
     exec /var/vcap/packages/kubernetes/bin/kube-controller-manager \
---master=127.0.0.1:8080 \
---cloud-provider=<%= p('cloud-provider') %> \
---leader-elect=true \
---logtostderr=true \
---root-ca-file=${CERT_DIR}/ca.pem \
---service-account-private-key-file=${CERT_DIR}/kubernetes-key.pem
+      --master=127.0.0.1:8080 \
+      --cloud-provider=<%= p('cloud-provider') %> \
+      --leader-elect=true \
+      --root-ca-file=${CERT_DIR}/ca.pem \
+      --service-account-private-key-file=${CERT_DIR}/kubernetes-key.pem \
+    1>> $LOG_DIR/kube-controller-manager.stdout.log \
+    2>> $LOG_DIR/kube-controller-manager.stderr.log
     ;;
 
   stop)

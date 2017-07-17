@@ -1,6 +1,7 @@
 #!/bin/bash
 
 RUN_DIR=/var/vcap/sys/run/scheduler
+LOG_DIR=/var/vcap/sys/log/scheduler
 PIDFILE=$RUN_DIR/scheduler.pid
 JOB_DIR=/var/vcap/jobs/scheduler
 
@@ -12,14 +13,16 @@ case $1 in
     pid_guard $PIDFILE "scheduler"
 
     mkdir -p $RUN_DIR
+    mkdir -p $LOG_DIR
 
     echo $$ > $PIDFILE
 
     exec /var/vcap/packages/kubernetes/bin/kube-scheduler \
---address=0.0.0.0 \
---master=127.0.0.1:8080 \
---leader-elect=true \
---logtostderr=true
+      --address=0.0.0.0 \
+      --master=127.0.0.1:8080 \
+      --leader-elect=true \
+    1>> $LOG_DIR/kube-scheduler.stdout.log \
+    2>> $LOG_DIR/kube-scheduler.stderr.log
     ;;
 
   stop)

@@ -2,6 +2,7 @@
 
 CERT_DIR=/var/vcap/jobs/kubernetes-master/certs
 RUN_DIR=/var/vcap/sys/run/apiserver
+LOG_DIR=/var/vcap/sys/log/apiserver
 JOB_DIR=/var/vcap/jobs/apiserver
 
 PIDFILE=$RUN_DIR/apiserver.pid
@@ -22,29 +23,31 @@ case $1 in
     pid_guard $PIDFILE "apiserver"
 
     mkdir -p $RUN_DIR
+    mkdir -p $LOG_DIR
 
     echo $$ > $PIDFILE
 
     exec /var/vcap/packages/kubernetes/bin/kube-apiserver \
-<% if_p('apiserver.event-ttl') do %>--event-ttl=<%= p('apiserver.event-ttl') %><% end %> \
---admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota \
---allow-privileged=true \
---anonymous-auth=false \
---apiserver-count=<%= p('apiserver.hosts').length %> \
---cert-dir=$CERT_DIR \
---cloud-provider=<%= p('cloud-provider') %> \
---etcd-servers=<%= p('etcd.machines').map { |h| "http://#{h}:4001" }.join ',' %> \
---insecure-bind-address=0.0.0.0 \
---insecure-port=8080 \
---logtostderr=true \
---service-account-key-file=${CERT_DIR}/kubernetes-key.pem \
---service-cluster-ip-range="10.0.0.0/24" \
---storage-backend=<%= p('apiserver.storage_backend') %> \
---storage-media-type=<%= p('apiserver.storage_media_type') %> \
---tls-cert-file=${CERT_DIR}/kubernetes.pem \
---tls-private-key-file=${CERT_DIR}/kubernetes-key.pem \
-${BASIC_AUTH_FILE:-} \
-${TOKEN_AUTH_FILE:-}
+      <% if_p('apiserver.event-ttl') do %>--event-ttl=<%= p('apiserver.event-ttl') %><% end %> \
+      --admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota \
+      --allow-privileged=true \
+      --anonymous-auth=false \
+      --apiserver-count=<%= p('apiserver.hosts').length %> \
+      --cert-dir=$CERT_DIR \
+      --cloud-provider=<%= p('cloud-provider') %> \
+      --etcd-servers=<%= p('etcd.machines').map { |h| "http://#{h}:4001" }.join ',' %> \
+      --insecure-bind-address=0.0.0.0 \
+      --insecure-port=8080 \
+      --service-account-key-file=${CERT_DIR}/kubernetes-key.pem \
+      --service-cluster-ip-range="10.0.0.0/24" \
+      --storage-backend=<%= p('apiserver.storage_backend') %> \
+      --storage-media-type=<%= p('apiserver.storage_media_type') %> \
+      --tls-cert-file=${CERT_DIR}/kubernetes.pem \
+      --tls-private-key-file=${CERT_DIR}/kubernetes-key.pem \
+      ${BASIC_AUTH_FILE:-} \
+      ${TOKEN_AUTH_FILE:-} \
+    1>> $LOG_DIR/kube-apiserver.stdout.log \
+    2>> $LOG_DIR/kube-apiserver.stderr.log
     ;;
 
   stop)
