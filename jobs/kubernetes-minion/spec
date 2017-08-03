@@ -25,6 +25,15 @@ properties:
   schedulable:
     description: Allow scheduling pods on host
 
+  kube-reserved:
+    description: Resource reservations for kubernetes daemons
+
+  system-reserved:
+    description: Resource reservations for system daemons
+
+  eviction-hard:
+    description: Pod eviction resource threshold
+
   cloud-provider:
     description: K8s cloud provider
     default: ""
