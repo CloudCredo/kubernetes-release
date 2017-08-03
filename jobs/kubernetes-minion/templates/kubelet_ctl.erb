@@ -53,6 +53,9 @@ case $1 in
       --cluster_dns=10.0.0.10 \
       --cluster_domain=cluster.local \
       <% if_p('schedulable') do |schedulable| %>--register-schedulable=<%= schedulable.to_s %><% end %> \
+      <% if_p('kube-reserved') do |kube_reserved| %>--kube-reserved=<%= kube_reserved %><% end %> \
+      <% if_p('system-reserved') do |system_reserved| %>--system-reserved=<%= system_reserved %><% end %> \
+      <% if_p('eviction-hard') do |eviction| %>--eviction-hard=<%= eviction_hard %><% end %> \
     1>> $LOG_DIR/kubelet.stdout.log \
     2>> $LOG_DIR/kubelet.stderr.log
     ;;
