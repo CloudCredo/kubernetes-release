@@ -3,7 +3,7 @@
 	url = https://github.com/cloudfoundry-incubator/etcd-release.git
 [submodule "src/docker-boshrelease"]
 	path = src/docker-boshrelease
-	url = https://github.com/cloudfoundry-community/docker-boshrelease.git
+	url = https://github.com/18F/docker-boshrelease.git
 [submodule "src/kubernetes"]
 	path = src/kubernetes
 	url = https://github.com/kubernetes/kubernetes.git

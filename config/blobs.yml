@@ -14,10 +14,10 @@ docker/bridge-utils-1.5.tar.gz:
   size: 33243
   object_id: 5d74b47a-ec01-40bf-891c-ee18a87ed27a
   sha: 19d2a58cd3a70f971aa931b40256174a847e60d6
-docker/docker-1.11.0.tgz:
-  size: 20520756
-  object_id: 4ea05593-59ef-431e-b472-8777e0f95c14
-  sha: 242b6a3e6def6719f5002a4d3d5b35e587036c4e
+docker/docker-1.12.5.tgz:
+  size: 28942012
+  object_id: 72ed5dd2-137c-48dc-45fb-bd4a28c925a5
+  sha: bbc60626e6003b4b882f56eed92b5048db6ae359
 etcd/etcd-v2.1.1-linux-amd64.tar.gz:
   size: 5608238
   object_id: 5484981b-7806-470e-a6d6-65559343180d
