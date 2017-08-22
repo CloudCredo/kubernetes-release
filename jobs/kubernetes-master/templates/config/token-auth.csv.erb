@@ -1,0 +1,5 @@
+<% p('apiserver.token-auth').each do |user| %>
+<% row = [user['token'], user['user'], user['uid']] %>
+<% row << user['group'] if user['group'] %>
+<%= row.join(',') %>
+<% end %>

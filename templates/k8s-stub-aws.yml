@@ -1,0 +1,50 @@
+meta:
+  aws:
+    default_region: us-gov-west-1
+
+director_uuid: DIRECTOR_UUID
+
+instance_groups:
+- name: consul
+  properties:
+    consul:
+      default_recursor: 8.8.8.8
+      ssl_ca: -- SECRET --
+      ssl_cert:  -- SECRET --
+      ssl_key:  -- SECRET --
+      domain: kubernetes
+      encrypt: SECRETKEY
+  networks:
+  - name: services
+    static_ips:
+    - 10.1.100.100
+    - 10.1.100.101
+    - 10.1.100.102
+- name: etcd
+  networks:
+  - name: services
+    static_ips:
+    - 10.1.100.103
+    - 10.1.100.104
+    - 10.1.100.105
+- name: master
+  networks:
+  - name: services
+    static_ips:
+    - 10.1.100.106
+    - 10.1.100.107
+    - 10.1.100.108
+  jobs:
+  - name: kubernetes-master
+    properties:
+      certs:
+        ca: -- SECRET --
+        kubernetes: -- SECRET --
+        kubernetes-key: -- SECRET --
+- name: minion
+  networks:
+  - name: services
+    static_ips:
+    - 10.1.100.109
+    - 10.1.100.110
+    - 10.1.100.111
