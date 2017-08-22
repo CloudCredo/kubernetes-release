@@ -18,4 +18,11 @@ NODE=$(kubectl -s http://${API_HOST}:8080 get nodes -o jsonpath="${QUERY}")
 
 kubectl -s http://${API_HOST}:8080 uncordon ${NODE}
 
+
+while true; do
+  if [ $(kubectl -s http://${API_HOST}:8080 get pods | tail -n +1 | grep -v Running | wc -l) -eq 0 ]; then
+    break
+  fi
+done
+
 <% end %>
