@@ -36,7 +36,7 @@ set +e
 while true; do
   if [ $? -ne 0 ]; then
     logger -t error "[BOSH Kubernetes Drain] Could not reach API host ${API_HOST}"
-  elif [ -z "$(kubectl -s ${API_HOST} get pods -o 'jsonpath={.items[*].status.containerStatuses[?(@.ready==false)].name}')" ]; then
+  elif [ -z "$(kubectl -s http://${API_HOST}:8080 get pods -o 'jsonpath={.items[*].status.containerStatuses[?(@.ready==false)].name}')" ]; then
     break
   fi
 
