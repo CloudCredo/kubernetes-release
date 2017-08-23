@@ -31,7 +31,6 @@ fi
 
 echo 0 >&3
 
-API_HOST=<%= p('apiserver.hosts').select {|ip| ip != addr}.first %>
 POD_RETRIES=0
 MAX_POD_RETRIES=240
 
