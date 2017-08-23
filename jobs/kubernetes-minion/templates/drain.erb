@@ -34,6 +34,7 @@ MAX_POD_RETRIES=240
 
 set +e
 while true; do
+  nc -vz $API_HOST 8080
   if [ $? -ne 0 ]; then
     logger -t error "[BOSH Kubernetes Drain] Could not reach API host ${API_HOST}"
   elif [ -z "$(kubectl -s http://${API_HOST}:8080 get pods -o 'jsonpath={.items[*].status.containerStatuses[?(@.ready==false)].name}')" ]; then
