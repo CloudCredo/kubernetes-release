@@ -30,4 +30,24 @@ if /bin/nc -vz $API_HOST 8080; then
 fi
 
 echo 0 >&3
+
+API_HOST=<%= p('apiserver.hosts').select {|ip| ip != addr}.first %>
+POD_RETRIES=0
+MAX_POD_RETRIES=240
+
+while true; do
+  if [ $(kubectl -s http://${API_HOST}:8080 get pods | tail -n +2 | grep -v Running | wc -l) -eq 0 ]; then
+    break
+  fi
+
+  if [ ${POD_RETRIES} -gt ${MAX_POD_RETRIES} ]; then
+    logger -t error "[BOSH Post-Start] Kubernetes pods not in a running state, and did not come back while waiting"
+    exit 1
+  else
+    POD_RETRIES=$((POD_RETRIES + 1))
+  fi
+
+  sleep 1
+done
+
 exit 0
