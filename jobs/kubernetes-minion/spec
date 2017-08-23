@@ -2,13 +2,45 @@
 name: kubernetes-minion
 
 packages:
-  - common
-  - kubernetes
+- common
+- kubernetes
+- aws-cli
 
 templates:
+  config/env.sh.erb: config/env.sh
   kubelet_ctl.erb: bin/kubelet_ctl
   proxy_ctl.erb: bin/proxy_ctl
+  pre-start.erb: bin/pre-start
+  post-start.erb: bin/post-start
+  drain.erb: bin/drain
 
 properties:
-  apiserver.host:
-    description: IP address of the API
+  apiserver.hosts:
+    description: List of api server IPs
+
+  manifest-dirs:
+    description: List of manifest dirs to run using kubelet
+    default: []
+
+  schedulable:
+    description: Allow scheduling pods on host
+
+  kube-reserved:
+    description: Resource reservations for kubernetes daemons
+
+  system-reserved:
+    description: Resource reservations for system daemons
+
+  eviction-hard:
+    description: Pod eviction resource threshold
+
+  cloud-provider:
+    description: K8s cloud provider
+    default: ""
+
+  cloud-credentials.minion:
+    description: K8s cloud provider minion credentials
+    default: {}
+
+  aws.cluster-tag:
+    description: K8s cluster tag (AWS only)

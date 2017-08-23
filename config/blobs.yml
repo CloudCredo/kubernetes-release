@@ -1,45 +1,40 @@
----
-docker/aufs-tools_3.2+20130722-1.1_amd64.deb:
-  object_id: 684d2f50-c5d5-4ae7-9909-ab96748a38a2
-  sha: 736922e32bf43facef617f8ea0bb9c7aa9efdcdb
-  size: 92274
+aws-cli/awscli-bundle.zip:
+  size: 6879872
+  object_id: cdbb9377-d90e-4983-835f-72799d91f362
+  sha: 95b38729dcb07acb692283de7013823e8aa75a9b
+docker/aufs-tools_20120411-3_amd64.deb:
+  size: 91762
+  object_id: 14387e29-90bf-4682-9c6f-270fc01ccffc
+  sha: 2dfc1fe386cd3f05ac7e0b4ebcf3ebc8a7f3b04d
 docker/autoconf-2.69.tar.gz:
+  size: 1927468
   object_id: 67b2bf5f-6171-458f-aef1-50ce57d030e1
   sha: 562471cbcb0dd0fa42a76665acf0dbb68479b78a
-  size: 1927468
 docker/bridge-utils-1.5.tar.gz:
+  size: 33243
   object_id: 5d74b47a-ec01-40bf-891c-ee18a87ed27a
   sha: 19d2a58cd3a70f971aa931b40256174a847e60d6
-  size: 33243
-docker/docker-1.2.0:
-  object_id: 486e994d-b6ef-43ce-8f5c-0f0fdb622ad8
-  sha: 540459bc5d9f1cac17fe8654891814314db15e77
-  size: 13398472
-git/git-1.7.11.2.tar.gz:
-  object_id: 7cd4b71b-5162-49bd-9662-8c0b7e8775f1
-  sha: f67b4f6c0277250411c6872ae7b8a872ae11d313
-  size: 4015780
-golang/go1.2.1.linux-amd64.tar.gz:
-  object_id: 77e6e10b-41a9-4c56-b13e-c0894ef2fdea
-  sha: 7605f577ff6ac2d608a3a4e829b255ae2ebc8dcf
-  size: 56123695
-kubernetes/binaries.tar.gz:
-  object_id: 25326452-97ed-4207-83a5-0236eed86d75
-  sha: d569b21e014267853750c2b1a7cf843ea8a830a2
-  size: 14200925
-mercurial/mercurial-3.1.1.tar.gz:
-  object_id: 30e156a7-b013-4f34-a023-24de8f5aaa7d
-  sha: 09cb417f55175262fcbe510af88db76bb893572e
-  size: 3982765
+docker/docker-1.12.5.tgz:
+  size: 28942012
+  object_id: 72ed5dd2-137c-48dc-45fb-bd4a28c925a5
+  sha: bbc60626e6003b4b882f56eed92b5048db6ae359
+etcd/etcd-v2.1.1-linux-amd64.tar.gz:
+  size: 5608238
+  object_id: 5484981b-7806-470e-a6d6-65559343180d
+  sha: d90a29e051f8dea2f5bb4200610ccbcec45497d7
+flannel/flannel-0.5.5-linux-amd64.tar.gz:
+  size: 3489977
+  object_id: 3477eb5a-0906-45a7-af39-68afccd9f4c4
+  sha: fab60fdf23b029fa39badc008fe951bce5046caa
+golang/go1.7.3.linux-amd64.tar.gz:
+  size: 82565628
+  object_id: 33f3095f-14b5-455e-9e21-1b6361590de2
+  sha: ead40e884ad4d6512bcf7b3c7420dd7fa4a96140
+kubernetes/kubernetes-server-linux-amd64.tar.gz:
+  size: 364176701
+  object_id: 68d3984d-8198-4f25-4a01-32b7c1d8ef4a
+  sha: 29828b8913fc0d922f42cb7b04d15a518984e0d6
 python/Python-2.7.8.tgz:
-  object_id: 51f9a691-f44b-4311-a9c3-3b3c26468f42
-  sha: 511960dd78451a06c9df76509635aeec05b2051a
   size: 14846119
-docker/docker-1.7.0:
-  object_id: c92f92b3-5054-49a7-9277-dfb157da4223
-  sha: c8fe8d5c9dd583877a012ed285fb67cc5c18927c
-  size: 16257966
-golang/go1.4.2.linux-amd64.tar.gz:
-  object_id: a32e922f-57e0-4428-b32a-6b531464faa3
-  sha: 5020af94b52b65cc9b6f11d50a67e4bae07b0aff
-  size: 62442704
+  object_id: 3586ff5f-9ae0-4b6b-9b14-fd9ab85da701
+  sha: 511960dd78451a06c9df76509635aeec05b2051a

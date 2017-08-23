@@ -1,66 +1,136 @@
-jobs:
-  - name: master
-    templates:
-      - name: docker
-      - name: etcd
-      - name: flannel
-      - name: kubernetes-minion
-      - name: kubernetes-master
-    instances: 1
-    resource_pool: default
-    persistent_disk: 65536
-    networks:
-      - name: default
-        static_ips: (( merge ))
+instance_groups:
+- name: consul
+  jobs:
+  - name: consul
+    release: consul
+  instances: 3
+  vm_type: kubernetes_consul
+  disk_type: kubernetes
+  stemcell: default
+  azs: [z1]
+  networks:
+  - name: services
+    static_ips: (( param "specify static ips for consul instances" ))
+
+- name: etcd
+  jobs:
+  - name: etcd
+    release: kubernetes
     properties:
-      networks:
-        apps: default
-  - name: minion
-    templates:
-      - name: docker
-      - name: etcd
-      - name: flannel
-      - name: kubernetes-minion
-    instances: 2
-    resource_pool: default
-    persistent_disk: 65536
-    networks:
-      - name: default
-        static_ips: (( merge ))
+      etcd:
+        machines: (( grab instance_groups.etcd.networks.services.static_ips ))
+        require_ssl: false
+        peer_require_ssl: false
+  instances: 3
+  vm_type: kubernetes_etcd
+  disk_type: kubernetes
+  stemcell: default
+  azs: [z1]
+  networks:
+  - name: services
+    static_ips: (( param "specify static ips for etcd instances" ))
+
+- name: master
+  jobs:
+  - name: docker
+    release: kubernetes
+  - name: flannel
+    release: kubernetes
+  - name: kubernetes-minion
+    release: kubernetes
     properties:
-      networks:
-        apps: default
+      manifest-dirs: [/var/vcap/jobs/kubernetes-master/manifests]
+      schedulable: false
+      apiserver:
+        hosts: (( grab instance_groups.master.networks.services.static_ips ))
+      cloud-credentials: (( param "specify cloud-credentials" ))
+  - name: kubernetes-master
+    release: kubernetes
+    properties:
+      etcd:
+        machines: (( grab instance_groups.etcd.networks.services.static_ips ))
+      consul:
+        join_hosts: (( grab instance_groups.consul.networks.services.static_ips ))
+      apiserver:
+        hosts: (( grab instance_groups.master.networks.services.static_ips ))
+      cloud-credentials: (( param "specify cloud-credentials" ))
+      certs:
+        ca: (( param "specify CA cert" ))
+        kubernetes: (( param "specify kubernetes cert" ))
+        kubernetes-key: (( param "specify kubernetes cert key" ))
+  instances: 3
+  vm_type: kubernetes_master
+  disk_type: kubernetes
+  stemcell: default
+  azs: [z1]
+  networks:
+  - name: services
+    static_ips: (( param "specify static ips for master instances" ))
+
+- name: minion
+  jobs:
+  - name: docker
+    release: kubernetes
+  - name: flannel
+    release: kubernetes
+  - name: kubernetes-minion
+    release: kubernetes
+    properties:
+      schedulable: true
+      apiserver:
+        hosts: (( grab instance_groups.master.networks.services.static_ips ))
+      cloud-credentials: (( param "specify cloud-credentials" ))
+  instances: 3
+  vm_type: kubernetes_minion
+  disk_type: kubernetes
+  stemcell: default
+  azs: [z1]
+  networks:
+  - name: services
+    static_ips: (( param "specify static ips for minion instances" ))
+
+- name: create-kubernetes-dns
+  lifecycle: errand
+  jobs:
   - name: create-kubernetes-dns
-    lifecycle: errand
-    templates:
-      - name: create-kubernetes-dns
-    instances: 1
-    resource_pool: default
-    networks:
-      - name: default
+    release: kubernetes
     properties:
-      networks:
-        apps: default
-  - name: guestbook-example
-    lifecycle: errand
-    templates:
-      - name: guestbook-example
-      - name: flannel
-    instances: 1
-    resource_pool: default
-    networks:
-      - name: default
+      apiserver:
+        host: (( grab instance_groups.master.networks.services.static_ips.[0] ))
+  instances: 1
+  vm_type: errand_small
+  stemcell: default
+  azs: [z1]
+  networks:
+  - name: services
+
+- name: create-kubernetes-monitoring
+  lifecycle: errand
+  jobs:
+  - name: create-kubernetes-monitoring
+    release: kubernetes
     properties:
-      networks:
-        apps: default
+      nodes: (( grab instance_groups.master.networks.services.static_ips instance_groups.minion.networks.services.static_ips ))
+      apiserver:
+        host: (( grab instance_groups.master.networks.services.static_ips.[0] ))
+  instances: 1
+  vm_type: errand_small
+  stemcell: default
+  azs: [z1]
+  networks:
+  - name: services
 
-properties:
-  apiserver:
-    host: (( static_ips(0) ))
-    machines: (( merge ))
-  etcd:
-    machines: (( merge ))
-    require_ssl: false
-    peer_require_ssl: false
-
-resource_pools: (( merge ))
+- name: apply-kubernetes-manifests
+  lifecycle: errand
+  jobs:
+  - name: apply-kubernetes-manifests
+    release: kubernetes
+    properties:
+      apiserver:
+        host: (( grab instance_groups.master.networks.services.static_ips.[0] ))
+  instances: 1
+  vm_type: errand_small
+  stemcell: default
+  azs: [z1]
+  networks:
+  - name: services

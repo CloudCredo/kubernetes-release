@@ -1,0 +1,20 @@
+#!/bin/bash
+
+<% if p('schedulable', true) %>
+
+# Uncordon node
+
+set -e
+set -x
+
+PATH=$PATH:/var/vcap/packages/kubernetes/bin
+
+API_HOST=<%= p('apiserver.hosts').first %>
+NODE_HOST=<%= spec.networks.to_h.values.first.ip %>
+
+# TODO: Query against kubernetes.io/hostname after https://github.com/kubernetes/kubernetes/issues/31984 is resolved
+QUERY="{range .items[?(.status.addresses[0].address==\"${NODE_HOST}\")]} {.metadata.name} {end}"
+NODE=$(kubectl -s http://${API_HOST}:8080 get nodes -o jsonpath="${QUERY}")
+
+kubectl -s http://${API_HOST}:8080 uncordon ${NODE}
+<% end %>

@@ -1,7 +1,0 @@
----
-name: flannel
-dependencies:
-  - git
-  - golang
-files:
-  - flannel/**/*

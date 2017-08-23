@@ -1,6 +1,0 @@
-set -e -x
-export GOROOT=$(readlink -nf /var/vcap/packages/golang)
-export PATH=$GOROOT/bin:$PATH
-cd flannel
-./build
-cp -r bin ${BOSH_INSTALL_TARGET}

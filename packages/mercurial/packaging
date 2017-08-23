@@ -1,6 +1,0 @@
-#!/bin/bash
-set -e -x
-tar zxvf mercurial/mercurial-3.1.1.tar.gz
-cd mercurial-3.1.1/
-export PATH=/var/vcap/packages/python/bin:$PATH
-make PREFIX=${BOSH_INSTALL_TARGET} install-bin

@@ -1,8 +1,0 @@
----
-name: docker
-dependencies: {}
-files:
-  - docker/aufs-tools_3.2+20130722-1.1_amd64.deb
-  - docker/autoconf-2.69.tar.gz
-  - docker/bridge-utils-1.5.tar.gz
-  - docker/docker-1.7.0
