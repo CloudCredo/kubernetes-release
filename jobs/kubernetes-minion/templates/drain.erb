@@ -35,10 +35,12 @@ MAX_POD_RETRIES=240
 set +e
 while true; do
   POD_OUTPUT=$(kubectl -s http://${API_HOST}:8080 get pods)
+  NOT_RUNNING=$(( $(echo "${POD_OUTPUT}" | tail -n +2 | grep -v Running | wc -l) + 0 ))
+  NOT_READY=$(( $(echo "${POD_OUTPUT}" | tail -n +2 | grep Running | awk '{print $2}' | awk -F/ '$1 != $2 {print "starting"}' | wc -l) + 0 ))
 
   if [ $? -ne 0 ]; then
     logger -t error "[BOSH Kubernetes Drain] Could not reach API host ${API_HOST}"
-  elif [ $(echo ${POD_OUTPUT} | tail -n +2 | grep -v Running | wc -l) -eq 0 ]; then
+  elif [ ${NOT_RUNNING} -eq 0 ] && [ ${NOT_READY} -eq 0 ]; then
     break
   fi
 
