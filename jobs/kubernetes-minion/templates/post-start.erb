@@ -17,6 +17,4 @@ QUERY="{range .items[?(.status.addresses[0].address==\"${NODE_HOST}\")]} {.metad
 NODE=$(kubectl -s http://${API_HOST}:8080 get nodes -o jsonpath="${QUERY}")
 
 kubectl -s http://${API_HOST}:8080 uncordon ${NODE}
-
-
 <% end %>
